@@ -1,5 +1,5 @@
 # World Of Middle Earth (WOME) - cliente
-
+[![Build Status](https://travis-ci.org/LosPoiosHermanos/jrpg-2017a-cliente.svg?branch=master)](https://travis-ci.org/LosPoiosHermanos/jrpg-2017a-cliente.svg?branch=master)
 ## Sobre las personas
 
 > Para ver los participantes anteriores, referirse al archivo [humans.md](humans.md)
