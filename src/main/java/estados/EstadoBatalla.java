@@ -15,6 +15,7 @@ import dominio.Elfo;
 import dominio.Guerrero;
 import dominio.Hechicero;
 import dominio.Humano;
+import dominio.MyRandom;
 import dominio.Orco;
 import dominio.Personaje;
 import interfaz.EstadoDePersonaje;
@@ -97,7 +98,7 @@ public class EstadoBatalla extends Estado {
 					if (menuBatalla.getBotonClickeado(posMouse[0], posMouse[1]) == 1) {
 						if(personaje.puedeAtacar()){
 							seRealizoAccion = true;
-							personaje.habilidadRaza1(enemigo);
+							personaje.habilidadRaza1(enemigo, new MyRandom());
 						}
 						haySpellSeleccionada = true;
 					}
@@ -105,7 +106,7 @@ public class EstadoBatalla extends Estado {
 					if (menuBatalla.getBotonClickeado(posMouse[0], posMouse[1]) == 2) {
 						if(personaje.puedeAtacar()){
 							seRealizoAccion = true;
-							personaje.habilidadRaza2(enemigo);
+							personaje.habilidadRaza2(enemigo, new MyRandom());
 						}
 						haySpellSeleccionada = true;
 					}
