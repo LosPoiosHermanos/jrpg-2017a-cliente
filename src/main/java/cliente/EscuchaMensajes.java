@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import com.google.gson.Gson;
 
+import cliente.Cliente;
 import estados.Estado;
 import estados.EstadoBatalla;
 import juego.Juego;
@@ -76,10 +77,17 @@ public class EscuchaMensajes extends Thread {
 					
 				case Comando.ATACAR:
 					paqueteAtacar = (PaqueteAtacar) gson.fromJson(objetoLeido, PaqueteAtacar.class);
-					juego.getEstadoBatalla().getEnemigo().setSalud(paqueteAtacar.getNuevaSaludPersonaje());
-					juego.getEstadoBatalla().getEnemigo().setEnergia(paqueteAtacar.getNuevaEnergiaPersonaje());
-					juego.getEstadoBatalla().getPersonaje().setSalud(paqueteAtacar.getNuevaSaludEnemigo());
-					juego.getEstadoBatalla().getPersonaje().setEnergia(paqueteAtacar.getNuevaEnergiaEnemigo());
+					
+					HashMap <String,Integer>mapa= paqueteAtacar.getHashMap(paqueteAtacar.getNuevaSaludPersonaje(),paqueteAtacar.getNuevaEnergiaPersonaje());
+					juego.getEstadoBatalla().getEnemigo().actualizar(mapa);
+					/*juego.getEstadoBatalla().getEnemigo().setSalud(paqueteAtacar.getNuevaSaludPersonaje());
+					juego.getEstadoBatalla().getEnemigo().setEnergia(paqueteAtacar.getNuevaEnergiaPersonaje());*/
+					
+					mapa= paqueteAtacar.getHashMap(paqueteAtacar.getNuevaSaludEnemigo(),paqueteAtacar.getNuevaEnergiaEnemigo());
+					/*juego.getEstadoBatalla().getPersonaje().setSalud(paqueteAtacar.getNuevaSaludEnemigo());
+					juego.getEstadoBatalla().getPersonaje().setEnergia(paqueteAtacar.getNuevaEnergiaEnemigo());*/
+					juego.getEstadoBatalla().getPersonaje().actualizar(mapa);
+					
 					juego.getEstadoBatalla().setMiTurno(true);
 					break;
 					
@@ -102,7 +110,7 @@ public class EscuchaMensajes extends Thread {
 				}	
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor.");
+			JOptionPane.showMessageDialog(null, "Fallo la conexiï¿½n con el servidor.");
 			e.printStackTrace();
 		}
 	}
