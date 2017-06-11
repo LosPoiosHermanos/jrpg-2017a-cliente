@@ -13,11 +13,6 @@ test.ignoreFailures = true
 
 defaultTasks 'clean', 'compileJava', 'test', 'checkstyleMain', 'pmd', 'findbugsMain', 'jacocoTestReport'
 
-compileJava.options.encoding = 'UTF-8'
-tasks.withType(JavaCompile) {
-options.encoding = 'UTF-8'
-}
-
 repositories {
 	mavenCentral()
 }
@@ -25,8 +20,13 @@ repositories {
 configurations {
 	pmdConf
 }
+compileJava.options.encoding = 'UTF-8'
+tasks.withType(JavaCompile) {
+options.encoding = 'UTF-8'
+}
 
 dependencies {
+	compile files('gson-2.8.0.jar','Dominio.jar') //'Recursos.jar',
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
     testCompile group: 'junit', name: 'junit', version: '4.+'
     pmdConf group: 'pmd', name: 'pmd', version: '4.3'
