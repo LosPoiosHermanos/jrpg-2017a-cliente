@@ -24,6 +24,7 @@ public class PaqueteAtacar extends Paquete implements Serializable, Cloneable {
 		this.nuevaEnergiaPersonaje = nuevaEnergia;
 		this.nuevaSaludEnemigo = nuevaSaludEnemigo;
 		this.nuevaEnergiaEnemigo = nuevaEnergiaEnemigo;
+		mapa = new HashMap<String,Integer>();
 	}
 
 	public int getId() {
