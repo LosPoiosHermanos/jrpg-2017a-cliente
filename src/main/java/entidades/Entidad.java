@@ -16,6 +16,7 @@ import juego.Juego;
 import juego.Pantalla;
 import mensajeria.PaqueteBatalla;
 import mensajeria.PaqueteMovimiento;
+import mensajeria.PaquetePersonaje;
 import mundo.Grafo;
 import mundo.Mundo;
 import mundo.Nodo;
@@ -205,7 +206,6 @@ public class Entidad {
 				}
 			}
 		}
-	
 
 		if (juego.getHandlerMouse().getNuevoRecorrido() && !juego.getEstadoJuego().getHaySolicitud()) {
 
@@ -293,6 +293,15 @@ public class Entidad {
 
 			enMovimiento = true;
 		}
+		if (juego.getHandlerMouse().getNuevoClick()) {
+			posMouse = juego.getHandlerMouse().getPosMouse();
+
+			if (clickEnInventario(posMouse[0], posMouse[1])) {
+				juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje() , MenuInfoPersonaje.menuInventario);
+			}
+			juego.getHandlerMouse().setNuevoClick(false);
+		}
+			
 	}
 
 	public void mover() {
@@ -489,7 +498,11 @@ public class Entidad {
 
 		return camino;
 	}
-
+	public boolean clickEnInventario(int mouseX, int mouseY){
+		if(mouseX >= x && mouseX <= x + Recursos.inventarioMochila.getWidth() && mouseY >= y && mouseY <= y+100 + Recursos.inventarioMochila.getHeight())
+			return true;
+		return false;
+	}
 	private boolean estanEnDiagonal(Nodo nodoUno, Nodo nodoDos) {
 		if (nodoUno.obtenerX() == nodoDos.obtenerX() || nodoUno.obtenerY() == nodoDos.obtenerY())
 			return false;

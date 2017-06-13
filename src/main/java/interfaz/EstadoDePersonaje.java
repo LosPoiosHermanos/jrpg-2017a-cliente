@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 import dominio.Personaje;
 import mensajeria.PaquetePersonaje;
+import recursos.CargadorImagen;
 import recursos.Recursos;
 
 public class EstadoDePersonaje {
@@ -51,6 +52,9 @@ public class EstadoDePersonaje {
 		} else {
 			drawBarra = (personaje.getExperiencia() * ANCHOBARRA) / Personaje.tablaDeNiveles[personaje.getNivel() + 1];
 		}
+
+		//SABRI Deshabilitarpara mostrar inventario durante batalla,falta configurar bien.
+//		g.drawImage(Recursos.inventarioMochila, x + 10 , y + 100,  ANCHOMINIATURA, ALTOMINIATURA, null);
 		
 		g.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		g.drawImage(Recursos.barraExperiencia, x + 77, y + 65, drawBarra, ALTOEXPERIENCIA, null);
@@ -83,6 +87,7 @@ public class EstadoDePersonaje {
 		} else {
 			drawBarra = (personaje.getExperiencia() * ANCHOBARRA) / Personaje.tablaDeNiveles[personaje.getNivel() + 1];
 		}
+		g.drawImage(Recursos.inventarioMochila, x + 10, y + 100, ANCHOMINIATURA, ALTOMINIATURA, null);
 		
 		g.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		g.drawImage(Recursos.barraExperiencia, x + 77, y + 65, drawBarra, ALTOEXPERIENCIA, null);

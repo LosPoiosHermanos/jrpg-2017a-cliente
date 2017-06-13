@@ -79,7 +79,9 @@ public class Recursos {
 	public static Map<String, BufferedImage> habilidades = new HashMap<>();
 	// Fin Batalla
 	
-
+	//Inventario
+	public static BufferedImage inventarioMochila;
+	
 	// Se cargan todos los recursos del juego una sola vez al inicio
 
 	public static void cargar(MenuCarga menuCarga) {
@@ -311,7 +313,8 @@ public class Recursos {
 		personaje.put("Humano", humano);
 		personaje.put("Orco", orco);
 		personaje.put("Elfo", elfo);
-
+		
+		
 		// Inicio Entorno
 		cesped = CargadorImagen.cargarImagen("/Cesped.png");
 		actualizarBarraDeCarga(++elementosCargados, menuCarga);
@@ -357,7 +360,9 @@ public class Recursos {
 			}
 			
 		}
-		
+
+		inventarioMochila = CargadorImagen.cargarImagen("/Inventario.png");
+
 		// Fin Entorno
 
 		// Inicio Batalla

@@ -1,7 +1,10 @@
 package mensajeria;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
+import dominio.Inventario;
+import dominio.Objeto;
 import estados.Estado;
 
 public class PaquetePersonaje extends Paquete implements Serializable, Cloneable {
@@ -19,7 +22,10 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 	private int inteligencia;
 	private int nivel;
 	private int experiencia;
+	//Sabri 
+	private Inventario inventario;
 
+	
 	public PaquetePersonaje() {
 		estado = Estado.estadoOffline;
 	}
@@ -149,4 +155,14 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 		obj = super.clone();
 		return obj;
 	}
+	public ArrayList<Objeto> getInventario() {
+		return inventario.clone();
+	}
+
+	public void addInventario(Objeto obj) {
+		this.inventario.añadir(obj);
+	}
+
+
+
 }

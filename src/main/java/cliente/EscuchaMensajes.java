@@ -19,6 +19,7 @@ import mensajeria.PaqueteBatalla;
 import mensajeria.PaqueteDeMovimientos;
 import mensajeria.PaqueteDePersonajes;
 import mensajeria.PaqueteFinalizarBatalla;
+import mensajeria.PaqueteInventario;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 
@@ -48,6 +49,8 @@ public class EscuchaMensajes extends Thread {
 			PaqueteBatalla paqueteBatalla;
 			PaqueteAtacar paqueteAtacar;
 			PaqueteFinalizarBatalla paqueteFinalizarBatalla;
+			//sabri
+			PaqueteInventario paqueteInventario;
 			personajesConectados = new HashMap<>();
 			ubicacionPersonajes = new HashMap<>();
 
@@ -107,6 +110,11 @@ public class EscuchaMensajes extends Thread {
 						juego.actualizarPersonaje();
 						juego.getEstadoJuego().actualizarPersonaje();
 					}
+					break;
+				//SABRI
+//				case Comando.INVENTARIO:
+//					paqueteInventario = (PaqueteInventario) gson.fromJson(objetoLeido, PaqueteInventario.class);
+
 				}	
 			}
 		} catch (Exception e) {

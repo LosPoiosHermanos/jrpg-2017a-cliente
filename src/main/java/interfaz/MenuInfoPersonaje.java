@@ -20,7 +20,8 @@ public class MenuInfoPersonaje {
 	public static final int menuSubirNivel = 2;
 	public static final int menuGanarBatalla = 3;
 	public static final int menuPerderBatalla = 4;
-	private static final String [] leyendaBoton = {"Batallar", "Volver", "Aceptar", "Aceptar", "Aceptar"};
+	public static final int menuInventario = 5;
+	private static final String [] leyendaBoton = {"Batallar", "Volver", "Aceptar", "Aceptar", "Aceptar", "Aceptar"};
 	
 	private int x;
 	private int y;
@@ -62,6 +63,9 @@ public class MenuInfoPersonaje {
 		case menuPerderBatalla:
 			graficarMenuPerderBatalla(g);
 			break;
+		case menuInventario:
+			graficarMenuInventario(g);
+			break;
 		}
 		
 		
@@ -72,6 +76,8 @@ public class MenuInfoPersonaje {
 		Pantalla.centerString(g, new Rectangle(x + 50, y + 380, 200, 25), leyendaBoton[tipoMenu]);
 	}
 	
+
+
 	private void graficarMenuPerderBatalla(Graphics g) {
 		
 		// Informo que perdio la batalla
@@ -127,7 +133,7 @@ public class MenuInfoPersonaje {
 		g.drawString(personaje.getCasta(), x + 100, y + 260);
 		g.drawString(personaje.getNivel() + " ", x + 100, y + 290);
 		g.drawString(personaje.getExperiencia() + " / " + Personaje.tablaDeNiveles[personaje.getNivel() + 1], x + 150, y + 320);
-		
+
 	}
 	
 	public boolean clickEnBoton(int mouseX, int mouseY){
@@ -146,5 +152,11 @@ public class MenuInfoPersonaje {
 		if(mouseX >= x && mouseX <= x + menu.getWidth() && mouseY >= y  && mouseY <= y + menu.getHeight())
 			return true;
 		return false;
+	}
+
+	private void graficarMenuInventario(Graphics g) {
+		g.setFont(new Font("Book Antiqua", 0, 18));
+		g.setColor(Color.BLACK);
+		Pantalla.centerString(g, new Rectangle(x, y + 200, menu.getWidth(), 0), "!INVENTARIOO!");
 	}
 }
