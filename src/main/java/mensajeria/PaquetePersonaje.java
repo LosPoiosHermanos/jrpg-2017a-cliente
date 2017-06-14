@@ -22,7 +22,6 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 	private int inteligencia;
 	private int nivel;
 	private int experiencia;
-	//Sabri 
 	private Inventario inventario;
 
 	

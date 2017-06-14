@@ -14,6 +14,5 @@ public class Comando {
 	public static final int MOVIMIENTO = 5;
 	public static final int REGISTRO = 6;
 	public static final int SALIR = 7;
-	//SABRI usar en caso de usar paquete inventario
-	public static final int INVENTARIO = 12;
+
 }
