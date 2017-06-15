@@ -159,7 +159,7 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 	}
 
 	public void addInventario(Objeto obj) {
-		this.inventario.añadir(obj);
+		this.inventario.agregar(obj);
 	}
 
 
