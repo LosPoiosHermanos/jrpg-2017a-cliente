@@ -499,7 +499,7 @@ public class Entidad {
 		return camino;
 	}
 	public boolean clickEnInventario(int mouseX, int mouseY){
-		if(mouseX >= x && mouseX <= x + Recursos.inventarioMochila.getWidth() && mouseY >= y && mouseY <= y+100 + Recursos.inventarioMochila.getHeight())
+		if(mouseX >= 25 && mouseX <=  Recursos.inventarioMochila.getWidth() && mouseY >= 100 && mouseY <= y + 50 + Recursos.inventarioMochila.getHeight())
 			return true;
 		return false;
 	}
