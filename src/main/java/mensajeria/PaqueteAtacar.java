@@ -3,8 +3,6 @@ package mensajeria;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import dominio.Personaje;
-import juego.Juego;
 
 public class PaqueteAtacar extends Paquete implements Serializable, Cloneable {
 

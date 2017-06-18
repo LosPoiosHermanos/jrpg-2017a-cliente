@@ -22,7 +22,9 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 	private int inteligencia;
 	private int nivel;
 	private int experiencia;
-	private Inventario inventario;
+//	sabri
+	private int idInventario;
+	private Inventario inventario = new Inventario();
 
 	
 	public PaquetePersonaje() {
@@ -148,18 +150,32 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 	public void setInteligencia(int inteligencia) {
 		this.inteligencia = inteligencia;
 	}
-
+	
+	public void setInventario(Inventario inventario) {
+		this.inventario = inventario;
+	}
+	public Inventario getInventario() {
+		return this.inventario;
+	}
 	public Object clone() {
 		Object obj = null;
 		obj = super.clone();
 		return obj;
 	}
-	public ArrayList<Objeto> getInventario() {
-		return inventario.clone();
+	public ArrayList<Objeto> getListaObjetosDeInventario() {
+		return inventario.clonar();
 	}
 
 	public void addInventario(Objeto obj) {
 		this.inventario.agregar(obj);
+	}
+
+	public int getIdInventario() {
+		return idInventario;
+	}
+
+	public void setIdInventario(int idInventario) {
+		this.idInventario = idInventario;
 	}
 
 

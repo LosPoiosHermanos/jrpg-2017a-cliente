@@ -150,6 +150,7 @@ public class EstadoBatalla extends Estado {
 							juego.getPersonaje().setNivel(personaje.getNivel());
 							juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje(), MenuInfoPersonaje.menuSubirNivel);
 						}
+						personaje.ganarObjeto();
 						finalizarBatalla();
 						Estado.setEstado(juego.getEstadoJuego());
 					} else {
@@ -159,9 +160,8 @@ public class EstadoBatalla extends Estado {
 						menuBatalla.setHabilitado(false);
 					}
 				} else if(haySpellSeleccionada && !seRealizoAccion){
-					JOptionPane.showMessageDialog(null, "No posees la energ�a suficiente para realizar esta habilidad.");
+					JOptionPane.showMessageDialog(null, "No posees la energía suficiente para realizar esta habilidad.");
 				}
-
 				juego.getHandlerMouse().setNuevoClick(false);
 			}
 		}
@@ -269,6 +269,7 @@ public class EstadoBatalla extends Estado {
 			paquetePersonaje.setDestreza(personaje.getDestreza());
 			paquetePersonaje.setFuerza(personaje.getFuerza());
 			paquetePersonaje.setInteligencia(personaje.getInteligencia());
+			paquetePersonaje.setInventario(personaje.getInventario());
 			
 			paqueteEnemigo.setSaludTope(enemigo.getSaludTope());
 			paqueteEnemigo.setEnergiaTope(enemigo.getEnergiaTope());
@@ -277,6 +278,7 @@ public class EstadoBatalla extends Estado {
 			paqueteEnemigo.setDestreza(enemigo.getDestreza());
 			paqueteEnemigo.setFuerza(enemigo.getFuerza());
 			paqueteEnemigo.setInteligencia(enemigo.getInteligencia());
+			paqueteEnemigo.setInventario(enemigo.getInventario());
 			
 			paquetePersonaje.setComando(Comando.ACTUALIZARPERSONAJE);
 			paqueteEnemigo.setComando(Comando.ACTUALIZARPERSONAJE);
@@ -284,7 +286,7 @@ public class EstadoBatalla extends Estado {
 			juego.getCliente().getSalida().writeObject(gson.toJson(paquetePersonaje));
 			juego.getCliente().getSalida().writeObject(gson.toJson(paqueteEnemigo));
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Fallo la conexi�n con el servidor.");
+			JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor.");
 			e.printStackTrace();
 		}
 	}

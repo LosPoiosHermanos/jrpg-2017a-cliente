@@ -5,7 +5,9 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
+import dominio.Objeto;
 import dominio.Personaje;
 import juego.Pantalla;
 import mensajeria.PaquetePersonaje;
@@ -103,6 +105,7 @@ public class MenuInfoPersonaje {
 		Pantalla.centerString(g, new Rectangle(x, y + 290, menu.getWidth(), 0), "a tu oponente, sigue así");
 		Pantalla.centerString(g, new Rectangle(x, y + 310, menu.getWidth(), 0), "para lograr subir de nivel");
 		Pantalla.centerString(g, new Rectangle(x, y + 330, menu.getWidth(), 0), "y mejorar tus atributos.");
+		
 	}
 
 	private void graficarMenuSubirNivel(Graphics g) {
@@ -110,7 +113,6 @@ public class MenuInfoPersonaje {
 		// Informo que subio de nivel
 		g.setColor(Color.BLACK);
 		Pantalla.centerString(g, new Rectangle(x, y + 200, menu.getWidth(), 0), "!Has subido de nivel!");
-		
 		g.setFont(new Font("Book Antiqua", 0, 18));
 		Pantalla.centerString(g, new Rectangle(x, y + 240, menu.getWidth(), 0), "!Felicitaciones!");
 		Pantalla.centerString(g, new Rectangle(x, y + 270, menu.getWidth(), 0), "Nuevo Nivel");
@@ -157,6 +159,14 @@ public class MenuInfoPersonaje {
 	private void graficarMenuInventario(Graphics g) {
 		g.setFont(new Font("Book Antiqua", 0, 18));
 		g.setColor(Color.BLACK);
-		Pantalla.centerString(g, new Rectangle(x, y + 200, menu.getWidth(), 0), "!INVENTARIOO!");
+		Pantalla.centerString(g, new Rectangle(x, y + 200, menu.getWidth(), 0), "!INVENTARIO!");
+		int posicion = 30;
+		
+		for (Objeto obj : personaje.getListaObjetosDeInventario()) {
+			
+			Pantalla.centerString(g, new Rectangle(x, y + (200 + posicion), menu.getWidth(), 0), obj.getNombre() +"-" + obj.getAtributoModificado());
+			posicion+=30;
+		}
+
 	}
 }
