@@ -22,11 +22,11 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 	private int inteligencia;
 	private int nivel;
 	private int experiencia;
-//	sabri
+	// sabri
 	private int idInventario;
-	private Inventario inventario = new Inventario();
+	private ArrayList<Objeto> inventario = new ArrayList<Objeto>();
+	// private Inventario inventario = new Inventario();
 
-	
 	public PaquetePersonaje() {
 		estado = Estado.estadoOffline;
 	}
@@ -38,15 +38,15 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 	public void setEstado(int estado) {
 		this.estado = estado;
 	}
-	
-	public int getMapa(){
+
+	public int getMapa() {
 		return idMapa;
 	}
-	
-	public void setMapa(int mapa){
+
+	public void setMapa(int mapa) {
 		idMapa = mapa;
 	}
-	
+
 	public int getNivel() {
 		return nivel;
 	}
@@ -67,16 +67,13 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 		return id;
 	}
 
-
 	public void setId(int id) {
 		this.id = id;
 	}
 
-
 	public String getCasta() {
 		return casta;
 	}
-
 
 	public void setCasta(String casta) {
 		this.casta = casta;
@@ -86,98 +83,101 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 		return nombre;
 	}
 
-
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
 
 	public String getRaza() {
 		return raza;
 	}
 
-
 	public void setRaza(String raza) {
 		this.raza = raza;
 	}
-
 
 	public int getSaludTope() {
 		return saludTope;
 	}
 
-
 	public void setSaludTope(int saludTope) {
 		this.saludTope = saludTope;
 	}
-
 
 	public int getEnergiaTope() {
 		return energiaTope;
 	}
 
-
 	public void setEnergiaTope(int energiaTope) {
 		this.energiaTope = energiaTope;
 	}
-
 
 	public int getFuerza() {
 		return fuerza;
 	}
 
-
 	public void setFuerza(int fuerza) {
 		this.fuerza = fuerza;
 	}
-
 
 	public int getDestreza() {
 		return destreza;
 	}
 
-
 	public void setDestreza(int destreza) {
 		this.destreza = destreza;
 	}
-
 
 	public int getInteligencia() {
 		return inteligencia;
 	}
 
-
 	public void setInteligencia(int inteligencia) {
 		this.inteligencia = inteligencia;
 	}
-	
-	public void setInventario(Inventario inventario) {
-		this.inventario = inventario;
-	}
-	public Inventario getInventario() {
-		return this.inventario;
-	}
+
+	// public int getIdInventario() {
+	// return idInventario;
+	// }
+	//
+	// public void setIdInventario(int idInventario) {
+	// this.idInventario = idInventario;
+	// }
+
+	@Override
 	public Object clone() {
 		Object obj = null;
 		obj = super.clone();
 		return obj;
 	}
-	public ArrayList<Objeto> getListaObjetosDeInventario() {
-		return inventario.clonar();
+
+	public void anadirObjeto(Objeto objeto) {
+		inventario.add(objeto);
 	}
 
-	public void addInventario(Objeto obj) {
-		this.inventario.agregar(obj);
+	public void eliminarObjeto(Objeto objeto) {
+		inventario.remove(objeto);
 	}
 
-	public int getIdInventario() {
-		return idInventario;
+	public void vaciarInventario() {
+		inventario.clear();
 	}
 
-	public void setIdInventario(int idInventario) {
-		this.idInventario = idInventario;
+	public int cantidadDeObjetos() {
+		return inventario.size();
 	}
 
+	public ArrayList<Objeto> getListaObjetos() {
+		return new ArrayList<Objeto>(inventario);
+	}
 
+	public void setListaObjetos(ArrayList<Objeto> inven) {
+		this.inventario = inven;
+	}
+	
+	public void eliminarUltimoObjeto(){
+		this.inventario.remove( this.inventario.size() - 1);
+	}
+	
+	
 
 }

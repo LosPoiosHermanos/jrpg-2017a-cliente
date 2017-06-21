@@ -150,12 +150,12 @@ public class Entidad {
 		// Tomo el click izquierdo
 		if (juego.getHandlerMouse().getNuevoClick()) {
 			if (juego.getEstadoJuego().getHaySolicitud()) {
-				
+
 				if (juego.getEstadoJuego().getMenuEnemigo().clickEnMenu(posMouse[0], posMouse[1])) {
 					if (juego.getEstadoJuego().getMenuEnemigo().clickEnBoton(posMouse[0], posMouse[1])) {
-						
+
 						// pregunto si el menu emergente es de tipo batalla
-						if(juego.getEstadoJuego().getTipoSolicitud() == MenuInfoPersonaje.menuBatallar){
+						if (juego.getEstadoJuego().getTipoSolicitud() == MenuInfoPersonaje.menuBatallar) {
 							PaqueteBatalla pBatalla = new PaqueteBatalla();
 
 							pBatalla.setId(juego.getPersonaje().getId());
@@ -172,8 +172,7 @@ public class Entidad {
 						} else {
 							juego.getEstadoJuego().setHaySolicitud(false, null, 0);
 						}
-						
-						
+
 					} else if (juego.getEstadoJuego().getMenuEnemigo().clickEnCerrar(posMouse[0], posMouse[1])) {
 						juego.getEstadoJuego().setHaySolicitud(false, null, 0);
 					}
@@ -199,7 +198,8 @@ public class Entidad {
 						if (tileMoverme[0] == tilePersonajes[0] && tileMoverme[1] == tilePersonajes[1]) {
 							idEnemigo = actual.getIdPersonaje();
 							juego.getEstadoJuego().setHaySolicitud(true,
-									juego.getEscuchaMensajes().getPersonajesConectados().get(idEnemigo), MenuInfoPersonaje.menuBatallar);
+									juego.getEscuchaMensajes().getPersonajesConectados().get(idEnemigo),
+									MenuInfoPersonaje.menuBatallar);
 							juego.getHandlerMouse().setNuevoClick(false);
 						}
 					}
@@ -297,11 +297,11 @@ public class Entidad {
 			posMouse = juego.getHandlerMouse().getPosMouse();
 
 			if (clickEnInventario(posMouse[0], posMouse[1])) {
-				juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje() , MenuInfoPersonaje.menuInventario);
+				juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje(), MenuInfoPersonaje.menuInventario);
 			}
 			juego.getHandlerMouse().setNuevoClick(false);
 		}
-			
+
 	}
 
 	public void mover() {
@@ -351,15 +351,15 @@ public class Entidad {
 	}
 
 	public void graficar(Graphics g) {
-	    drawX = (int) (x - juego.getCamara().getxOffset());
-	    drawY = (int) (y - juego.getCamara().getyOffset());
-	    g.drawImage(getFrameAnimacionActual(), drawX, drawY+4, ancho, alto, null);
+		drawX = (int) (x - juego.getCamara().getxOffset());
+		drawY = (int) (y - juego.getCamara().getyOffset());
+		g.drawImage(getFrameAnimacionActual(), drawX, drawY + 4, ancho, alto, null);
 	}
-	
-	public void graficarNombre(Graphics g){
+
+	public void graficarNombre(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Book Antiqua", Font.BOLD, 15));
-	    Pantalla.centerString(g, new java.awt.Rectangle(drawX + 32, drawY - 20, 0, 10), nombre);
+		Pantalla.centerString(g, new java.awt.Rectangle(drawX + 32, drawY - 20, 0, 10), nombre);
 	}
 
 	private BufferedImage getFrameAnimacionActual() {
@@ -498,11 +498,14 @@ public class Entidad {
 
 		return camino;
 	}
-	public boolean clickEnInventario(int mouseX, int mouseY){
-		if(mouseX >= 25 && mouseX <=  Recursos.inventarioMochila.getWidth() && mouseY >= 100 && mouseY <= y + 50 + Recursos.inventarioMochila.getHeight())
+
+	public boolean clickEnInventario(int mouseX, int mouseY) {
+		if (mouseX >= 25 && mouseX <= Recursos.inventarioMochila.getWidth() && mouseY >= 100
+				&& mouseY <= y + 50 + Recursos.inventarioMochila.getHeight())
 			return true;
 		return false;
 	}
+
 	private boolean estanEnDiagonal(Nodo nodoUno, Nodo nodoDos) {
 		if (nodoUno.obtenerX() == nodoDos.obtenerX() || nodoUno.obtenerY() == nodoDos.obtenerY())
 			return false;

@@ -32,11 +32,11 @@ public class Pantalla {
 
 	public Pantalla(final String NOMBRE, final int ANCHO, final int ALTO, final Cliente cliente) {
 		pantalla = new JFrame(NOMBRE);
-		
+
 		pantalla.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
-			new ImageIcon(MenuJugar.class.getResource("/cursor.png")).getImage(),
-			new Point(0,0),"custom cursor"));
-		
+				new ImageIcon(MenuJugar.class.getResource("/cursor.png")).getImage(), new Point(0, 0),
+				"custom cursor"));
+
 		pantalla.setSize(ANCHO, ALTO);
 		pantalla.setResizable(false);
 		pantalla.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -79,23 +79,23 @@ public class Pantalla {
 	public JFrame getFrame() {
 		return pantalla;
 	}
-	
+
 	public void mostrar() {
 		pantalla.setVisible(true);
 	}
-	
+
 	public static void centerString(Graphics g, Rectangle r, String s) {
-	    FontRenderContext frc = new FontRenderContext(null, true, true);
+		FontRenderContext frc = new FontRenderContext(null, true, true);
 
-	    Rectangle2D r2D = g.getFont().getStringBounds(s, frc);
-	    int rWidth = (int) Math.round(r2D.getWidth());
-	    int rHeight = (int) Math.round(r2D.getHeight());
-	    int rX = (int) Math.round(r2D.getX());
-	    int rY = (int) Math.round(r2D.getY());
+		Rectangle2D r2D = g.getFont().getStringBounds(s, frc);
+		int rWidth = (int) Math.round(r2D.getWidth());
+		int rHeight = (int) Math.round(r2D.getHeight());
+		int rX = (int) Math.round(r2D.getX());
+		int rY = (int) Math.round(r2D.getY());
 
-	    int a = (r.width / 2) - (rWidth / 2) - rX;
-	    int b = (r.height / 2) - (rHeight / 2) - rY;
-	    
-	    g.drawString(s, r.x + a, r.y + b);
+		int a = (r.width / 2) - (rWidth / 2) - rX;
+		int b = (r.height / 2) - (rHeight / 2) - rY;
+
+		g.drawString(s, r.x + a, r.y + b);
 	}
 }
