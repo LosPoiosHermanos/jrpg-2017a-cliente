@@ -16,6 +16,7 @@ import dominio.Guerrero;
 import dominio.Hechicero;
 import dominio.Humano;
 import dominio.MyRandom;
+import dominio.Objeto;
 import dominio.Orco;
 import dominio.Personaje;
 import interfaz.EstadoDePersonaje;
@@ -151,8 +152,16 @@ public class EstadoBatalla extends Estado {
 							juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje(),
 									MenuInfoPersonaje.menuSubirNivel);
 						}
-						personaje.ganarObjeto();
+						//recupero los datos del inventario
+						personaje.reestablecerInventario(juego.getPersonaje().getInventario());
+						Objeto obj = personaje.ganarObjeto();
 						finalizarBatalla();
+						
+						//sabri - provisorio, muestra el objeto agregado al inventario
+						if(obj.getId() > 0)
+							JOptionPane.showMessageDialog(null,
+								"Ha ganado el Bonus:\n" + obj.getNombre()+"\n" +obj.getAtributoModificado() + " + " +obj.getAtributo());
+						
 						Estado.setEstado(juego.getEstadoJuego());
 					} else {
 						paqueteAtacar = new PaqueteAtacar(paquetePersonaje.getId(), paqueteEnemigo.getId(),
@@ -261,7 +270,7 @@ public class EstadoBatalla extends Estado {
 		}
 	}
 
-	private void finalizarBatalla() {
+	private void finalizarBatalla() { //podre recibir ganador y perdedor
 		try {
 			juego.getCliente().getSalida().writeObject(gson.toJson(paqueteFinalizarBatalla));
 
@@ -273,7 +282,7 @@ public class EstadoBatalla extends Estado {
 			paquetePersonaje.setFuerza(personaje.getFuerza());
 			paquetePersonaje.setInteligencia(personaje.getInteligencia());
 			// sabri
-			//paquetePersonaje.setListaObjetos(personaje.getListaObjetos());
+			paquetePersonaje.setInventario(personaje.getIdDeObjetos());
 
 			paqueteEnemigo.setSaludTope(enemigo.getSaludTope());
 			paqueteEnemigo.setEnergiaTope(enemigo.getEnergiaTope());
@@ -283,7 +292,7 @@ public class EstadoBatalla extends Estado {
 			paqueteEnemigo.setFuerza(enemigo.getFuerza());
 			paqueteEnemigo.setInteligencia(enemigo.getInteligencia());
 			// sabri
-			//paqueteEnemigo.setListaObjetos(enemigo.getListaObjetos());
+			paqueteEnemigo.setInventario(enemigo.getIdDeObjetos());
 
 			paquetePersonaje.setComando(Comando.ACTUALIZARPERSONAJE);
 			paqueteEnemigo.setComando(Comando.ACTUALIZARPERSONAJE);

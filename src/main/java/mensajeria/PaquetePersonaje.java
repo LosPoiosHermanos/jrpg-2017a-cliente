@@ -2,6 +2,7 @@ package mensajeria;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import dominio.Inventario;
 import dominio.Objeto;
@@ -22,10 +23,8 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 	private int inteligencia;
 	private int nivel;
 	private int experiencia;
-	// sabri
-	private int idInventario;
-	private ArrayList<Objeto> inventario = new ArrayList<Objeto>();
-	// private Inventario inventario = new Inventario();
+	// sabri	id inventario se asociaria con id personaje
+	private int[] inventario= new int[Inventario.MAX_OBJETOS];
 
 	public PaquetePersonaje() {
 		estado = Estado.estadoOffline;
@@ -33,6 +32,18 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 
 	public int getEstado() {
 		return estado;
+	}
+
+	public int[] getInventario() {
+		return inventario;
+	}
+
+	public void setInventario(int[] inventario) {
+		this.inventario = inventario;
+	}
+
+	public int getIdMapa() {
+		return idMapa;
 	}
 
 	public void setEstado(int estado) {
@@ -135,49 +146,21 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 		this.inteligencia = inteligencia;
 	}
 
-	// public int getIdInventario() {
-	// return idInventario;
-	// }
-	//
-	// public void setIdInventario(int idInventario) {
-	// this.idInventario = idInventario;
-	// }
-
-	@Override
 	public Object clone() {
 		Object obj = null;
 		obj = super.clone();
 		return obj;
 	}
 
-	public void anadirObjeto(Objeto objeto) {
-		inventario.add(objeto);
+	public void setinventario(int pos, int idObjeto) {
+		inventario[pos] = idObjeto;
+		
+	}
+	public void setinventario(int[]objetos) {
+		inventario = objetos;
+		
 	}
 
-	public void eliminarObjeto(Objeto objeto) {
-		inventario.remove(objeto);
-	}
 
-	public void vaciarInventario() {
-		inventario.clear();
-	}
-
-	public int cantidadDeObjetos() {
-		return inventario.size();
-	}
-
-	public ArrayList<Objeto> getListaObjetos() {
-		return new ArrayList<Objeto>(inventario);
-	}
-
-	public void setListaObjetos(ArrayList<Objeto> inven) {
-		this.inventario = inven;
-	}
-	
-	public void eliminarUltimoObjeto(){
-		this.inventario.remove( this.inventario.size() - 1);
-	}
-	
-	
 
 }

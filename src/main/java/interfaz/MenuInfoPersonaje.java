@@ -4,9 +4,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.Scrollbar;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import javax.swing.JScrollPane;
+
+import dominio.Inventario;
 import dominio.Objeto;
 import dominio.Personaje;
 import juego.Pantalla;
@@ -28,6 +32,8 @@ public class MenuInfoPersonaje {
 	private int x;
 	private int y;
 	private PaquetePersonaje personaje;
+
+	Inventario inventario;
 
 	public MenuInfoPersonaje(int x, int y, PaquetePersonaje personaje) {
 		this.x = x;
@@ -155,19 +161,27 @@ public class MenuInfoPersonaje {
 			return true;
 		return false;
 	}
-
+	//Muestro el inventario 
 	private void graficarMenuInventario(Graphics g) {
-		g.setFont(new Font("Book Antiqua", 0, 18));
+		g.setFont(new Font("Book Antiqua", 0, 12));
 		g.setColor(Color.BLACK);
-		Pantalla.centerString(g, new Rectangle(x, y + 200, menu.getWidth(), 0), "!INVENTARIO!");
+		
+		Pantalla.centerString(g, new Rectangle(x, y + 185, menu.getWidth(), 0), "!INVENTARIO!");
+		Inventario inventario = new Inventario(personaje.getInventario());
 		int posicion = 30;
-
-		for (Objeto obj : personaje.getListaObjetos()) {
-
-			Pantalla.centerString(g, new Rectangle(x, y + (200 + posicion), menu.getWidth(), 0),
-					obj.getNombre() + "-" + obj.getAtributoModificado());
-			posicion += 30;
+		
+		for (Objeto obj : inventario.getObjetos()) {
+			if(obj.getId() > 0){
+				//falta iconos y scroll o cambiar ventana
+				Pantalla.centerString(g, new Rectangle(x, y + (190 + posicion), menu.getWidth(), 0),
+						obj.getNombre() + " - " + obj.getAtributoModificado()+ " + " + obj.getAtributo());
+				posicion += 30;
+				
+			}
 		}
-
+		if(posicion == 30){
+			Pantalla.centerString(g, new Rectangle(x, y + (200 + posicion), menu.getWidth(), 0),
+					"No tiene elementos por el momento");
+		}
 	}
 }
