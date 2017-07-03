@@ -11,6 +11,7 @@ import cliente.EscuchaMensajes;
 import dominio.Personaje;
 import estados.Estado;
 import estados.EstadoBatalla;
+import estados.EstadoComercio;
 import estados.EstadoJuego;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
@@ -33,6 +34,7 @@ public class Juego implements Runnable {
 	// Estados
 	private Estado estadoJuego;
 	private Estado estadoBatalla;
+	private Estado estadoComercio;
 
 	// HandlerMouse
 	private HandlerMouse handlerMouse;
@@ -237,5 +239,13 @@ public class Juego implements Runnable {
 	public void actualizarPersonaje() {
 		paquetePersonaje = (PaquetePersonaje) (escuchaMensajes.getPersonajesConectados().get(paquetePersonaje.getId())
 				.clone());
+	}
+
+	public void setEstadoComercio(EstadoComercio estadoComercio) {
+		this.estadoComercio = estadoComercio;
+		
+	}
+	public EstadoComercio getEstadoComercio() {
+		return (EstadoComercio) estadoComercio;
 	}
 }

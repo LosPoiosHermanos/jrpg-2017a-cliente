@@ -81,4 +81,6 @@ public class PaqueteAtacar extends Paquete implements Serializable, Cloneable {
 		return mapa;
 	}
 
+
+
 }

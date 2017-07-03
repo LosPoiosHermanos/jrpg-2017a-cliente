@@ -157,10 +157,9 @@ public class EstadoBatalla extends Estado {
 						Objeto obj = personaje.ganarObjeto();
 						finalizarBatalla();
 						
-						//sabri - provisorio, muestra el objeto agregado al inventario
 						if(obj.getId() > 0)
 							JOptionPane.showMessageDialog(null,
-								"Ha ganado el Bonus:\n" + obj.getNombre()+"\n" +obj.getAtributoModificado() + " + " +obj.getAtributo());
+								" Ha ganado el Bonus:\n" + obj.getNombre()+" -> " +obj.getAtributoModificado() + " + " +obj.getAtributo()+"  ");
 						
 						Estado.setEstado(juego.getEstadoJuego());
 					} else {
@@ -281,7 +280,7 @@ public class EstadoBatalla extends Estado {
 			paquetePersonaje.setDestreza(personaje.getDestreza());
 			paquetePersonaje.setFuerza(personaje.getFuerza());
 			paquetePersonaje.setInteligencia(personaje.getInteligencia());
-			// sabri
+
 			paquetePersonaje.setInventario(personaje.getIdDeObjetos());
 
 			paqueteEnemigo.setSaludTope(enemigo.getSaludTope());
@@ -291,7 +290,7 @@ public class EstadoBatalla extends Estado {
 			paqueteEnemigo.setDestreza(enemigo.getDestreza());
 			paqueteEnemigo.setFuerza(enemigo.getFuerza());
 			paqueteEnemigo.setInteligencia(enemigo.getInteligencia());
-			// sabri
+
 			paqueteEnemigo.setInventario(enemigo.getIdDeObjetos());
 
 			paquetePersonaje.setComando(Comando.ACTUALIZARPERSONAJE);

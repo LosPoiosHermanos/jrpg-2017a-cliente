@@ -23,7 +23,6 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 	private int inteligencia;
 	private int nivel;
 	private int experiencia;
-	// sabri	id inventario se asociaria con id personaje
 	private int[] inventario= new int[Inventario.MAX_OBJETOS];
 
 	public PaquetePersonaje() {

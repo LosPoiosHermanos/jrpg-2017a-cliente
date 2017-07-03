@@ -56,10 +56,6 @@ public class EstadoDePersonaje {
 			drawBarra = (personaje.getExperiencia() * ANCHOBARRA) / Personaje.tablaDeNiveles[personaje.getNivel() + 1];
 		}
 
-		// INVENTARIO - Deshabilitar para mostrar inventario durante
-		// batalla,falta configurar bien.
-		// g.drawImage(Recursos.inventarioMochila, x + 10 , y + 100,
-		// ANCHOMINIATURA, ALTOMINIATURA, null);
 
 		g.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		g.drawImage(Recursos.barraExperiencia, x + 77, y + 65, drawBarra, ALTOEXPERIENCIA, null);

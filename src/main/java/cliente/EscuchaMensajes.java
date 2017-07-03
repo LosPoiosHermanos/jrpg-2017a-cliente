@@ -11,16 +11,20 @@ import com.google.gson.Gson;
 import cliente.Cliente;
 import estados.Estado;
 import estados.EstadoBatalla;
+import estados.EstadoComercio;
 import juego.Juego;
 import mensajeria.Comando;
 import mensajeria.Paquete;
 import mensajeria.PaqueteAtacar;
 import mensajeria.PaqueteBatalla;
+import mensajeria.PaqueteComercio;
 import mensajeria.PaqueteDeMovimientos;
 import mensajeria.PaqueteDePersonajes;
 import mensajeria.PaqueteFinalizarBatalla;
+import mensajeria.PaqueteFinalizarComercio;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
+import mensajeria.PaqueteTrueque;
 
 public class EscuchaMensajes extends Thread {
 
@@ -48,6 +52,9 @@ public class EscuchaMensajes extends Thread {
 			PaqueteBatalla paqueteBatalla;
 			PaqueteAtacar paqueteAtacar;
 			PaqueteFinalizarBatalla paqueteFinalizarBatalla;
+			PaqueteFinalizarComercio paqueteFinalizarComercio;
+			PaqueteComercio paqueteComercio;
+			PaqueteTrueque paqueteTrueque;
 			personajesConectados = new HashMap<>();
 			ubicacionPersonajes = new HashMap<>();
 
@@ -121,10 +128,45 @@ public class EscuchaMensajes extends Thread {
 						juego.getEstadoJuego().actualizarPersonaje();
 					}
 					break;
+				case Comando.COMERCIO:
+					paqueteComercio = gson.fromJson(objetoLeido, PaqueteComercio.class);
+					juego.getPersonaje().setEstado(Estado.estadoComercio);
+					Estado.setEstado(null);
+					juego.setEstadoComercio(new EstadoComercio(juego, paqueteComercio));
+					Estado.setEstado(juego.getEstadoComercio());
+					break;
+					
+				case Comando.FINALIZARCOMERCIO:
+					paqueteFinalizarComercio = (PaqueteFinalizarComercio) gson.fromJson(objetoLeido,
+							PaqueteFinalizarComercio.class);
+					juego.getPersonaje().setEstado(Estado.estadoJuego);
+					Estado.setEstado(juego.getEstadoJuego());
+					break;
+				case Comando.TRUEQUE:
+					paqueteTrueque = (PaqueteTrueque) gson.fromJson(objetoLeido, PaqueteTrueque.class);
+					//sabri revisar mapa.
+					//hago intercambio
+					if(paqueteTrueque.getNuevoObjetoEnemigo() > 0 && paqueteTrueque.getNuevoObjeto() > 0 && paqueteTrueque.hayIntercambio()){
+						HashMap<String, Integer> mapaT = paqueteTrueque.getHashMap(paqueteTrueque.getNuevoObjeto());
+						juego.getEstadoComercio().getEnemigo().actualizar(mapaT);//agregar inventarios a actualizar
+						mapaT = paqueteTrueque.getHashMap(paqueteTrueque.getNuevoObjetoEnemigo());
+						juego.getEstadoComercio().getPersonaje().actualizar(mapaT);
+					}else{
+						//envio el que quiere intercambiar
+//						if(paqueteTrueque.getNuevoObjetoEnemigo() == 0 && paqueteTrueque.getNuevoObjeto() != 0){
+						if(paqueteTrueque.getNuevoObjeto() == 0  && paqueteTrueque.getNuevoObjetoEnemigo() != 0){	
+							juego.getEstadoComercio().mostrarTrueque(paqueteTrueque.getNuevoObjetoEnemigo());
+						}else//envia respuesta
+							juego.getEstadoComercio().mostrarTrueque(paqueteTrueque.getNuevoObjetoEnemigo(), paqueteTrueque.getNuevoObjeto());
+					}
+					juego.getEstadoComercio().setMiTurno(true);	
+
+					break;
+
 				}
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Fallo la conexi�n con el servidor.");
+			JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor.");
 			e.printStackTrace();
 		}
 	}

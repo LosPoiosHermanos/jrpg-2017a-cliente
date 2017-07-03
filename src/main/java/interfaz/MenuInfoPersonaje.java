@@ -27,7 +27,8 @@ public class MenuInfoPersonaje {
 	public static final int menuGanarBatalla = 3;
 	public static final int menuPerderBatalla = 4;
 	public static final int menuInventario = 5;
-	private static final String[] leyendaBoton = { "Batallar", "Volver", "Aceptar", "Aceptar", "Aceptar", "Aceptar" };
+	public static final int menuMercado = 6;
+	private static final String[] leyendaBoton = { "Batallar", "Volver", "Aceptar", "Aceptar", "Aceptar", "Aceptar", "Comerciar" };
 
 	private int x;
 	private int y;
@@ -75,6 +76,9 @@ public class MenuInfoPersonaje {
 		case menuInventario:
 			graficarMenuInventario(g);
 			break;
+		case menuMercado:
+			graficarMenuMercado(g);
+			break;
 		}
 
 		// muestro los botones
@@ -83,6 +87,8 @@ public class MenuInfoPersonaje {
 		g.setColor(Color.WHITE);
 		Pantalla.centerString(g, new Rectangle(x + 50, y + 380, 200, 25), leyendaBoton[tipoMenu]);
 	}
+
+
 
 	private void graficarMenuPerderBatalla(Graphics g) {
 
@@ -172,7 +178,7 @@ public class MenuInfoPersonaje {
 		
 		for (Objeto obj : inventario.getObjetos()) {
 			if(obj.getId() > 0){
-				//falta iconos y scroll o cambiar ventana
+				//falta scroll o cambiar ventana
 				Pantalla.centerString(g, new Rectangle(x, y + (190 + posicion), menu.getWidth(), 0),
 						obj.getNombre() + " - " + obj.getAtributoModificado()+ " + " + obj.getAtributo());
 				posicion += 30;
@@ -183,5 +189,19 @@ public class MenuInfoPersonaje {
 			Pantalla.centerString(g, new Rectangle(x, y + (200 + posicion), menu.getWidth(), 0),
 					"No tiene elementos por el momento");
 		}
+	}
+	private void graficarMenuMercado(Graphics g) {
+		// muestro los nombres de los atributos
+		g.setColor(Color.BLACK);
+		Pantalla.centerString(g, new Rectangle(x, y + 200, menu.getWidth(), 0), personaje.getRaza());
+		// muestro los atributos
+		g.setFont(new Font("Book Antiqua", 0, 18));
+		
+		Inventario inventario = new Inventario(personaje.getInventario());
+		if(inventario.getCantidadObjetos() >= 0){
+			Pantalla.centerString(g, new Rectangle(x, y + 250 , menu.getWidth(), 0), "¿Quiere comerciar con "+personaje.getNombre()+" ?");
+			Pantalla.centerString(g, new Rectangle(x, y + 290 , menu.getWidth(), 0), "Tiene "+ inventario.getCantidadObjetos() + " objetos.");
+		}
+	
 	}
 }

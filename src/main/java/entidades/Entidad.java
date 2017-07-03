@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import juego.Juego;
 import juego.Pantalla;
 import mensajeria.PaqueteBatalla;
+import mensajeria.PaqueteComercio;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 import mundo.Grafo;
@@ -169,6 +170,22 @@ public class Entidad {
 								JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor");
 								e.printStackTrace();
 							}
+						} 
+						// pregunto si el menu emergente es de tipo comercio sabri
+						if (juego.getEstadoJuego().getTipoSolicitud() == MenuInfoPersonaje.menuMercado) {
+							PaqueteComercio pComercio = new PaqueteComercio();
+
+							pComercio.setId(juego.getPersonaje().getId());
+							pComercio.setIdEnemigo(idEnemigo);
+
+							juego.getEstadoJuego().setHaySolicitud(false, null, 0);
+
+							try {
+								juego.getCliente().getSalida().writeObject(gson.toJson(pComercio));
+							} catch (IOException e) {
+								JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor");
+								e.printStackTrace();
+							}
 						} else {
 							juego.getEstadoJuego().setHaySolicitud(false, null, 0);
 						}
@@ -197,9 +214,16 @@ public class Entidad {
 
 						if (tileMoverme[0] == tilePersonajes[0] && tileMoverme[1] == tilePersonajes[1]) {
 							idEnemigo = actual.getIdPersonaje();
-							juego.getEstadoJuego().setHaySolicitud(true,
-									juego.getEscuchaMensajes().getPersonajesConectados().get(idEnemigo),
-									MenuInfoPersonaje.menuBatallar);
+							if(tileMoverme[0]>41 && tileMoverme[1] < 30){ //si esta en el mapa de mercado sabri  
+								juego.getEstadoJuego().setHaySolicitud(true,
+								juego.getEscuchaMensajes().getPersonajesConectados().get(idEnemigo),
+								MenuInfoPersonaje.menuMercado);	
+							}else{
+								juego.getEstadoJuego().setHaySolicitud(true,
+								juego.getEscuchaMensajes().getPersonajesConectados().get(idEnemigo),
+								MenuInfoPersonaje.menuBatallar);
+							}
+								
 							juego.getHandlerMouse().setNuevoClick(false);
 						}
 					}
