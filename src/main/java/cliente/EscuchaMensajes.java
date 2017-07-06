@@ -144,23 +144,17 @@ public class EscuchaMensajes extends Thread {
 					break;
 				case Comando.TRUEQUE:
 					paqueteTrueque = (PaqueteTrueque) gson.fromJson(objetoLeido, PaqueteTrueque.class);
-					//sabri revisar mapa.
-					//hago intercambio
-					if(paqueteTrueque.getNuevoObjetoEnemigo() > 0 && paqueteTrueque.getNuevoObjeto() > 0 && paqueteTrueque.hayIntercambio()){
-						HashMap<String, Integer> mapaT = paqueteTrueque.getHashMap(paqueteTrueque.getNuevoObjeto());
-						juego.getEstadoComercio().getEnemigo().actualizar(mapaT);//agregar inventarios a actualizar
-						mapaT = paqueteTrueque.getHashMap(paqueteTrueque.getNuevoObjetoEnemigo());
-						juego.getEstadoComercio().getPersonaje().actualizar(mapaT);
-					}else{
-						//envio el que quiere intercambiar
-//						if(paqueteTrueque.getNuevoObjetoEnemigo() == 0 && paqueteTrueque.getNuevoObjeto() != 0){
-						if(paqueteTrueque.getNuevoObjeto() == 0  && paqueteTrueque.getNuevoObjetoEnemigo() != 0){	
-							juego.getEstadoComercio().mostrarTrueque(paqueteTrueque.getNuevoObjetoEnemigo());
-						}else//envia respuesta
-							juego.getEstadoComercio().mostrarTrueque(paqueteTrueque.getNuevoObjetoEnemigo(), paqueteTrueque.getNuevoObjeto());
+					//envio el que quiere intercambiar
+					if(paqueteTrueque.getNuevoObjeto() == 0  && paqueteTrueque.getNuevoObjetoEnemigo() != 0){	
+						juego.getEstadoComercio().setMiTurno(true);
+						juego.getEstadoComercio().mostrarTrueque(paqueteTrueque.getNuevoObjetoEnemigo());
+						
+					}else{//envia respuesta
+						if(paqueteTrueque.getNuevoObjeto() > 0  && paqueteTrueque.getNuevoObjetoEnemigo() > 0 ){	
+							juego.getEstadoComercio().setMiTurno(true);
+							juego.getEstadoComercio().mostrarTrueque( paqueteTrueque.getNuevoObjeto(), paqueteTrueque.getNuevoObjetoEnemigo());
+						}
 					}
-					juego.getEstadoComercio().setMiTurno(true);	
-
 					break;
 
 				}

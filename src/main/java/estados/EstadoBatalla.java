@@ -228,7 +228,7 @@ public class EstadoBatalla extends Estado {
 			personaje = new Elfo(nombre, salud, energia, fuerza, destreza, inteligencia, casta,
 					experiencia, nivel, id);
 		}
-//		personaje.reestablecerInventario(paquetePersonaje.getInventario());//sabri
+		personaje.reestablecerInventario(paquetePersonaje.getInventario());//sabri
 		
 		nombre = paqueteEnemigo.getNombre();
 		salud = paqueteEnemigo.getSaludTope();
@@ -259,7 +259,7 @@ public class EstadoBatalla extends Estado {
 			enemigo = new Elfo(nombre, salud, energia, fuerza, destreza, inteligencia, casta,
 					experiencia, nivel, id);
 		}
-//		enemigo.reestablecerInventario(paqueteEnemigo.getInventario());
+		enemigo.reestablecerInventario(paqueteEnemigo.getInventario());
 		
 	}
 

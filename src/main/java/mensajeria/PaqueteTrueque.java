@@ -9,8 +9,6 @@ public class PaqueteTrueque extends Paquete implements Serializable, Cloneable {
 	private int idEnemigo;
 	private int nuevoObjeto;
 	private int nuevoObjetoEnemigo;
-	private boolean hayIntercambio;
-	private HashMap<String, Integer> mapa;
 
 	public PaqueteTrueque(int id, int idEnemigo, int nuevoObjeto, int nuevoObjetoEnemigo, boolean hayIntercambio) {
 		setComando(Comando.TRUEQUE);
@@ -18,9 +16,7 @@ public class PaqueteTrueque extends Paquete implements Serializable, Cloneable {
 		this.idEnemigo = idEnemigo;
 		this.nuevoObjeto = nuevoObjeto;
 		this.nuevoObjetoEnemigo = nuevoObjetoEnemigo;
-		this.setHayIntercambio(hayIntercambio);
-		
-		mapa = new HashMap<String, Integer>();
+
 	}
 
 	public int getId() {
@@ -55,19 +51,7 @@ public class PaqueteTrueque extends Paquete implements Serializable, Cloneable {
 		this.nuevoObjetoEnemigo = nuevoObjetoEnemigo;
 	}
 	
-	public HashMap<String, Integer> getHashMap(int objeto) {
 
-		mapa.put("objeto", objeto);
-		
-		return mapa;
-	}
 
-	public boolean hayIntercambio() {
-		return hayIntercambio;
-	}
-
-	public void setHayIntercambio(boolean hayIntercambio) {
-		this.hayIntercambio = hayIntercambio;
-	}
 
 }

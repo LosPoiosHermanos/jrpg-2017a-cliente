@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 
 import com.google.gson.Gson;
 
+import dominio.Inventario;
 import juego.Juego;
 import juego.Pantalla;
 import mensajeria.PaqueteBatalla;
@@ -171,27 +172,30 @@ public class Entidad {
 								e.printStackTrace();
 							}
 						}
-//						else{
+						else{
 							// pregunto si el menu emergente es de tipo comercio sabri
 							if (juego.getEstadoJuego().getTipoSolicitud() == MenuInfoPersonaje.menuMercado) {
 								PaqueteComercio pComercio = new PaqueteComercio();
+								Inventario inventario = new Inventario(juego.getPersonaje().getInventario());
+								if(inventario.getCantidadObjetos() > 0){
+									pComercio.setId(juego.getPersonaje().getId());
+									pComercio.setIdEnemigo(idEnemigo);
 	
-								pComercio.setId(juego.getPersonaje().getId());
-								pComercio.setIdEnemigo(idEnemigo);
-	
-								juego.getEstadoJuego().setHaySolicitud(false, null, 0);
-	
-								try {
-									juego.getCliente().getSalida().writeObject(gson.toJson(pComercio));
-								} catch (IOException e) {
-									JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor");
-									e.printStackTrace();
+									juego.getEstadoJuego().setHaySolicitud(false, null, 0);
+		
+									try {
+										juego.getCliente().getSalida().writeObject(gson.toJson(pComercio));
+									} catch (IOException e) {
+										JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor");
+										e.printStackTrace();
+									}
+									juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje(), MenuInfoPersonaje.mercadoFallido);
 								}
+								
+							}else {
+							juego.getEstadoJuego().setHaySolicitud(false, null, 0);
 							}
-//							else {
-//							juego.getEstadoJuego().setHaySolicitud(false, null, 0);
-//							}
-//						}
+						}
 					} else if (juego.getEstadoJuego().getMenuEnemigo().clickEnCerrar(posMouse[0], posMouse[1])) {
 						juego.getEstadoJuego().setHaySolicitud(false, null, 0);
 					}

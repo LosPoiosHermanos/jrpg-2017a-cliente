@@ -4,8 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.TextArea;
-import java.awt.image.BufferedImage;
+
 
 import dominio.Objeto;
 import dominio.Personaje;
@@ -19,7 +18,7 @@ public class MenuComercio {
 		private static final int y = 100;
 		private static final int anchoBoton = 150;
 		private static final int altoBoton = 25;
-		private static final int[][] botones = {{ 300, 460}, { 300, 480 }};
+		private static final int[][] botones = {{ 350, 480}};
 		private boolean habilitado;
 		private Personaje personaje;
 
@@ -37,6 +36,9 @@ public class MenuComercio {
 				g.drawImage(Recursos.menuComercioDeshabilitado, x, y, null);
 
 			//listo inventarios
+//			Pantalla.centerString(g, new Rectangle(280, 170 , Recursos.menuComercio.getWidth(), 0), 
+//					"Id - Nombre -> Atributo  +  Valor");
+			
 			int posicion = 0;
 			for (Objeto obj : personaje.getInventario().getObjetos()) {
 				if(obj.getId() > 0){
@@ -49,14 +51,12 @@ public class MenuComercio {
 			
 			// Dibujo los botones
 			g.drawImage(Recursos.botonMenu, botones[0][0], botones[0][1], anchoBoton, altoBoton, null);
-			g.drawImage(Recursos.botonMenu, botones[1][0], botones[1][1], anchoBoton, altoBoton, null);
 
 
 			// Dibujo las leyendas
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("Book Antiqua", 1, 14));
-			g.drawString("Seleccionar Id.", botones[0][0]+35, botones[0][1]+15);
-			g.drawString("Salir", botones[1][0]+50, botones[1][1]+15);
+			g.drawString("Haga Click Aquí", botones[0][0]+15, botones[0][1]+15);
 
 			// Dibujo el turno de quien es
 			g.setFont(new Font("Book Antiqua", 1, 18));

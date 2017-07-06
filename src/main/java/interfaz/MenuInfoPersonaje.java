@@ -28,7 +28,10 @@ public class MenuInfoPersonaje {
 	public static final int menuPerderBatalla = 4;
 	public static final int menuInventario = 5;
 	public static final int menuMercado = 6;
-	private static final String[] leyendaBoton = { "Batallar", "Volver", "Aceptar", "Aceptar", "Aceptar", "Aceptar", "Comerciar" };
+	public static final int mercadoExitoso = 7;
+	public static final int mercadoFallido = 8;
+	
+	private static final String[] leyendaBoton = { "Batallar", "Volver", "Aceptar", "Aceptar", "Aceptar", "Aceptar", "Comerciar", "Aceptar", "Aceptar" };
 
 	private int x;
 	private int y;
@@ -79,6 +82,13 @@ public class MenuInfoPersonaje {
 		case menuMercado:
 			graficarMenuMercado(g);
 			break;
+		case mercadoExitoso:
+			graficarMercadoExitoso(g);
+			break;
+		case mercadoFallido:
+			graficarMercadoFallido(g);
+			break;
+			
 		}
 
 		// muestro los botones
@@ -87,6 +97,8 @@ public class MenuInfoPersonaje {
 		g.setColor(Color.WHITE);
 		Pantalla.centerString(g, new Rectangle(x + 50, y + 380, 200, 25), leyendaBoton[tipoMenu]);
 	}
+
+
 
 
 
@@ -203,5 +215,25 @@ public class MenuInfoPersonaje {
 			Pantalla.centerString(g, new Rectangle(x, y + 290 , menu.getWidth(), 0), "Tiene "+ inventario.getCantidadObjetos() + " objetos.");
 		}
 	
+	}
+	
+	private void graficarMercadoExitoso(Graphics g) {
+		g.setColor(Color.BLACK);
+		Pantalla.centerString(g, new Rectangle(x, y + 200, menu.getWidth(), 0), "!Has estado ");
+		Pantalla.centerString(g, new Rectangle(x, y + 230, menu.getWidth(), 0), "comerciando!");
+
+		g.setFont(new Font("Book Antiqua", 0, 14));
+		Pantalla.centerString(g, new Rectangle(x, y + 270, menu.getWidth(), 0), "Podras ver en tu mochila");
+		Pantalla.centerString(g, new Rectangle(x, y + 290, menu.getWidth(), 0), "los elementos conseguidos");
+		Pantalla.centerString(g, new Rectangle(x, y + 310, menu.getWidth(), 0), "sigue asi, para subir de nivel");
+		Pantalla.centerString(g, new Rectangle(x, y + 330, menu.getWidth(), 0), "y mejorar tus atributos.");
+		
+	}
+	private void graficarMercadoFallido(Graphics g) {
+		g.setColor(Color.BLACK);
+		Pantalla.centerString(g, new Rectangle(x, y + 200, menu.getWidth(), 0), "No has podido ");
+		Pantalla.centerString(g, new Rectangle(x, y + 230, menu.getWidth(), 0), "intercambiar");
+		Pantalla.centerString(g, new Rectangle(x, y + 230, menu.getWidth(), 0), "un elemento");
+
 	}
 }
