@@ -131,7 +131,7 @@ public class EstadoComercio extends Estado {
 					
 					
 				}
-				if (personaje.getCantidadObjetos() == 0) {//si no tiene objetos
+				if (enemigo.getCantidadObjetos() == 0) {//si no tiene objetos
 					juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje(),MenuInfoPersonaje.mercadoFallido);
 					finalizarComercio();
 					Estado.setEstado(juego.getEstadoJuego());

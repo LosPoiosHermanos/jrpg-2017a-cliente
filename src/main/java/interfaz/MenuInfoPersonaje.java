@@ -233,7 +233,7 @@ public class MenuInfoPersonaje {
 		g.setColor(Color.BLACK);
 		Pantalla.centerString(g, new Rectangle(x, y + 200, menu.getWidth(), 0), "No has podido ");
 		Pantalla.centerString(g, new Rectangle(x, y + 230, menu.getWidth(), 0), "intercambiar");
-		Pantalla.centerString(g, new Rectangle(x, y + 230, menu.getWidth(), 0), "un elemento");
+		Pantalla.centerString(g, new Rectangle(x, y + 260, menu.getWidth(), 0), "un elemento");
 
 	}
 }
