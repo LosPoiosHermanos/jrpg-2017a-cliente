@@ -79,6 +79,10 @@ public class Recursos {
 	public static Map<String, BufferedImage> habilidades = new HashMap<>();
 	// Fin Batalla
 	
+	//Comercio
+	public static BufferedImage menuComercio;
+	public static BufferedImage menuComercioDeshabilitado;
+	
 	//Inventario
 	public static BufferedImage inventarioMochila;
 	
@@ -431,6 +435,12 @@ public class Recursos {
 		menuBatallaDeshabilitado = CargadorImagen.cargarImagen("/MenuBatallaDeshabilitado.png");
 		actualizarBarraDeCarga(++elementosCargados, menuCarga);
 		// Fin Batalla
+		
+		menuComercio = CargadorImagen.cargarImagen("/MenuEnemigo.png");
+		actualizarBarraDeCarga(++elementosCargados, menuCarga);
+		
+		menuComercioDeshabilitado = CargadorImagen.cargarImagen("/MenuEnemigoDes.png");//sabri comercio despues reemplazo la imagen
+		actualizarBarraDeCarga(++elementosCargados, menuCarga);
 	}
 
 	private static void actualizarBarraDeCarga(int elementosCargados, MenuCarga menuCarga) {
