@@ -170,26 +170,28 @@ public class Entidad {
 								JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor");
 								e.printStackTrace();
 							}
-						} 
-						// pregunto si el menu emergente es de tipo comercio sabri
-						if (juego.getEstadoJuego().getTipoSolicitud() == MenuInfoPersonaje.menuMercado) {
-							PaqueteComercio pComercio = new PaqueteComercio();
-
-							pComercio.setId(juego.getPersonaje().getId());
-							pComercio.setIdEnemigo(idEnemigo);
-
-							juego.getEstadoJuego().setHaySolicitud(false, null, 0);
-
-							try {
-								juego.getCliente().getSalida().writeObject(gson.toJson(pComercio));
-							} catch (IOException e) {
-								JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor");
-								e.printStackTrace();
-							}
-						} else {
-							juego.getEstadoJuego().setHaySolicitud(false, null, 0);
 						}
-
+//						else{
+							// pregunto si el menu emergente es de tipo comercio sabri
+							if (juego.getEstadoJuego().getTipoSolicitud() == MenuInfoPersonaje.menuMercado) {
+								PaqueteComercio pComercio = new PaqueteComercio();
+	
+								pComercio.setId(juego.getPersonaje().getId());
+								pComercio.setIdEnemigo(idEnemigo);
+	
+								juego.getEstadoJuego().setHaySolicitud(false, null, 0);
+	
+								try {
+									juego.getCliente().getSalida().writeObject(gson.toJson(pComercio));
+								} catch (IOException e) {
+									JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor");
+									e.printStackTrace();
+								}
+							}
+//							else {
+//							juego.getEstadoJuego().setHaySolicitud(false, null, 0);
+//							}
+//						}
 					} else if (juego.getEstadoJuego().getMenuEnemigo().clickEnCerrar(posMouse[0], posMouse[1])) {
 						juego.getEstadoJuego().setHaySolicitud(false, null, 0);
 					}

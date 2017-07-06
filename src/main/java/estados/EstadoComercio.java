@@ -15,7 +15,6 @@ import dominio.Elfo;
 import dominio.Guerrero;
 import dominio.Hechicero;
 import dominio.Humano;
-import dominio.MyRandom;
 import dominio.Objeto;
 import dominio.Orco;
 import dominio.Personaje;
@@ -206,7 +205,7 @@ public class EstadoComercio extends Estado {
 			personaje = new Elfo(nombre, salud, energia, fuerza, destreza, inteligencia, casta,
 					experiencia, nivel, id);
 		}
-
+		personaje.reestablecerInventario(paquetePersonaje.getInventario());
 		nombre = paqueteEnemigo.getNombre();
 		salud = paqueteEnemigo.getSaludTope();
 		energia = paqueteEnemigo.getEnergiaTope();
@@ -238,8 +237,8 @@ public class EstadoComercio extends Estado {
 		}
 		
 		//recupero los datos del inventario
-		personaje.reestablecerInventario(juego.getPersonaje().getInventario());
-		enemigo.reestablecerInventario(juego.getPersonaje().getInventario());//no llegan aca
+
+		enemigo.reestablecerInventario(paqueteEnemigo.getInventario());
 	}
 
 
@@ -313,10 +312,13 @@ public class EstadoComercio extends Estado {
 	public void mostrarTrueque(int id) {
 		objeto1 = enemigo.getInventario().getObjeto(id);
 		int idObjeto = 0;
+		String entrada;
 		do{
-			idObjeto = Integer.parseInt(JOptionPane.showInputDialog("Escriba el indice del elemento a canjear a cambio de: \n"+
-								" "+ objeto1.getNombre()+ "->  "+ objeto1.getAtributoModificado()+" +"+objeto1.getAtributo() ));
-		}while(idObjeto<1);
+			entrada = JOptionPane.showInputDialog("Escriba el indice del elemento a canjear a cambio de: \n"+
+								" "+ objeto1.getNombre()+ "->  "+ objeto1.getAtributoModificado()+" +"+objeto1.getAtributo() );
+			if(!entrada.equals(null))
+				idObjeto = Integer.parseInt(entrada);
+		}while(!personaje.getInventario().estaEnInventario(idObjeto));
 		//confirma el objeto recibido y contesta con otro
 		paqueteTrueque = new PaqueteTrueque(paquetePersonaje.getId(), paqueteEnemigo.getId(), id, idObjeto,false);
 		enviarObjeto(paqueteTrueque);
