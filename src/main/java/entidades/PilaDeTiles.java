@@ -1,5 +1,5 @@
 package entidades;
-
+//REVISADO
 public class PilaDeTiles {
 
 	NodoDePila ptrPila;

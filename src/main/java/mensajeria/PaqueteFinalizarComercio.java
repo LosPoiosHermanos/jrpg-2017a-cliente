@@ -1,9 +1,14 @@
 package mensajeria;
-
+//REVISADO
 import java.io.Serializable;
+import comandos.Comando;
 
 public class PaqueteFinalizarComercio extends Paquete implements Serializable, Cloneable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private int idEnemigo;
 

@@ -3,9 +3,7 @@ package juego;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
-
 import javax.swing.JOptionPane;
-
 import cliente.Cliente;
 import cliente.EscuchaMensajes;
 import dominio.Personaje;
@@ -13,6 +11,7 @@ import estados.Estado;
 import estados.EstadoBatalla;
 import estados.EstadoComercio;
 import estados.EstadoJuego;
+import mensajeria.Multichat;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 
@@ -22,6 +21,7 @@ public class Juego implements Runnable {
 	private final String NOMBRE;
 	private final int ANCHO;
 	private final int ALTO;
+	private Multichat multichat;
 
 	private Thread hilo;
 	private boolean corriendo;
@@ -49,6 +49,26 @@ public class Juego implements Runnable {
 	private PaqueteMovimiento ubicacionPersonaje;
 
 	private CargarRecursos cargarRecursos;
+	
+	//SISO BORRAR ESTO?
+//		private Map<Integer, PaquetePersonaje> personajesConectados;
+//		private Map<Integer, PaqueteMovimiento> ubicacionPersonajes;
+//
+//		public Map<Integer, PaquetePersonaje> getPersonajesConectados() {
+//			return personajesConectados;
+//		}
+//
+//		public void setPersonajesConectados(Map<Integer, PaquetePersonaje> personajesConectados) {
+//			this.personajesConectados = personajesConectados;
+//		}
+//
+//		public Map<Integer, PaqueteMovimiento> getUbicacionPersonajes() {
+//			return ubicacionPersonajes;
+//		}
+//
+//		public void setUbicacionPersonajes(Map<Integer, PaqueteMovimiento> ubicacionPersonajes) {
+//			this.ubicacionPersonajes = ubicacionPersonajes;
+//		}
 
 	public Juego(final String nombre, final int ancho, final int alto, Cliente cliente, PaquetePersonaje pp) {
 		this.NOMBRE = nombre;
@@ -76,8 +96,11 @@ public class Juego implements Runnable {
 	}
 
 	public void iniciar() { // Carga lo necesario para iniciar el juego
-		pantalla = new Pantalla(NOMBRE, ANCHO, ALTO, cliente);
 
+		multichat = new Multichat(cliente);
+		multichat.setVisible(true);
+
+		pantalla = new Pantalla(NOMBRE, ANCHO, ALTO, cliente);
 		pantalla.getCanvas().addMouseListener(handlerMouse);
 
 		camara = new Camara(this, 0, 0);
@@ -188,6 +211,10 @@ public class Juego implements Runnable {
 		}
 	}
 
+	public Multichat getMultichat() {
+		return multichat;
+	}
+
 	public int getAncho() {
 		return ANCHO;
 	}
@@ -243,8 +270,9 @@ public class Juego implements Runnable {
 
 	public void setEstadoComercio(EstadoComercio estadoComercio) {
 		this.estadoComercio = estadoComercio;
-		
+
 	}
+
 	public EstadoComercio getEstadoComercio() {
 		return (EstadoComercio) estadoComercio;
 	}

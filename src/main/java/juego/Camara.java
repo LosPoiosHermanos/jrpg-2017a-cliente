@@ -1,7 +1,7 @@
 package juego;
 
 import entidades.Entidad;
-
+//REVISADO
 public class Camara {
 
 	private Juego juego;

@@ -1,10 +1,14 @@
 package mensajeria;
 
 import java.io.Serializable;
-import java.util.HashMap;
-
+import comandos.Comando;
+//REVISADO
 public class PaqueteTrueque extends Paquete implements Serializable, Cloneable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private int idEnemigo;
 	private int nuevoObjeto;
@@ -46,12 +50,9 @@ public class PaqueteTrueque extends Paquete implements Serializable, Cloneable {
 	public int getNuevoObjetoEnemigo() {
 		return nuevoObjetoEnemigo;
 	}
-	
+
 	public void setnuevoObjetoEnemigo(int nuevoObjetoEnemigo) {
 		this.nuevoObjetoEnemigo = nuevoObjetoEnemigo;
 	}
-	
-
-
 
 }

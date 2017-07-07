@@ -1,15 +1,15 @@
 package mensajeria;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import dominio.Inventario;
-import dominio.Objeto;
 import estados.Estado;
-
+//REVISADO
 public class PaquetePersonaje extends Paquete implements Serializable, Cloneable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private int idMapa;
 	private int estado;
@@ -153,13 +153,12 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 
 	public void setinventario(int pos, int idObjeto) {
 		inventario[pos] = idObjeto;
-		
+
 	}
-	public void setinventario(int[]objetos) {
+
+	public void setinventario(int[] objetos) {
 		inventario = objetos;
-		
+
 	}
-
-
 
 }

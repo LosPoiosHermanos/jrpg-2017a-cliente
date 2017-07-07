@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 import estados.Estado;
 import juego.Juego;
-
+//REVISADO
 public class Mundo {
 	private Juego juego;
 	private int ancho;

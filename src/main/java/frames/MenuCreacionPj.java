@@ -4,14 +4,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Toolkit;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import cliente.Cliente;
 import mensajeria.PaquetePersonaje;
-
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -19,13 +16,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
-
+//REVISADO
 public class MenuCreacionPj extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField nombre;
 	private JLabel destreza;

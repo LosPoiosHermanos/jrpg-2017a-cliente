@@ -4,14 +4,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Toolkit;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import cliente.*;
-import mensajeria.Comando;
-
+import comandos.Comando;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -22,9 +19,13 @@ import javax.swing.JPasswordField;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JLayeredPane;
-
+//REVISADO
 public class MenuInicioSesion extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
@@ -94,6 +95,8 @@ public class MenuInicioSesion extends JFrame {
 		btnConectar.setFocusable(false);
 		btnConectar.setIcon(new ImageIcon(MenuInicioSesion.class.getResource("/frames/BotonMenu.png")));
 		btnConectar.addActionListener(new ActionListener() {
+			//siso
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				synchronized (cliente) {
 					cliente.setAccion(Comando.INICIOSESION);

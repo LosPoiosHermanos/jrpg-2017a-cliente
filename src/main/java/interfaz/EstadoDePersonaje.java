@@ -7,9 +7,8 @@ import java.awt.image.BufferedImage;
 
 import dominio.Personaje;
 import mensajeria.PaquetePersonaje;
-import recursos.CargadorImagen;
 import recursos.Recursos;
-
+//REVISADO
 public class EstadoDePersonaje {
 
 	private static final int ANCHOBARRA = 122;
@@ -55,7 +54,6 @@ public class EstadoDePersonaje {
 		} else {
 			drawBarra = (personaje.getExperiencia() * ANCHOBARRA) / Personaje.tablaDeNiveles[personaje.getNivel() + 1];
 		}
-
 
 		g.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		g.drawImage(Recursos.barraExperiencia, x + 77, y + 65, drawBarra, ALTOEXPERIENCIA, null);

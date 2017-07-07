@@ -8,7 +8,7 @@ import java.awt.Rectangle;
 import dominio.Personaje;
 import juego.Pantalla;
 import recursos.Recursos;
-
+//REVISADO
 public class MenuBatalla {
 
 	private static final int x = 100;

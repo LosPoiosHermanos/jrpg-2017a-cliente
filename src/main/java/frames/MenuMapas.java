@@ -1,20 +1,15 @@
 package frames;
 
-import mensajeria.Comando;
-
+import comandos.Comando;
 import java.awt.Color;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import cliente.Cliente;
-
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Toolkit;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -22,9 +17,13 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JLayeredPane;
-
+//REVISADO
 public class MenuMapas extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	public MenuMapas(final Cliente cliente) {

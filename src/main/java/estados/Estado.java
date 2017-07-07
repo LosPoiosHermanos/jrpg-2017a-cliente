@@ -3,7 +3,7 @@ package estados;
 import java.awt.Graphics;
 
 import juego.Juego;
-
+//REVISADO
 public abstract class Estado {
 
 	private static Estado estadoActual = null; 

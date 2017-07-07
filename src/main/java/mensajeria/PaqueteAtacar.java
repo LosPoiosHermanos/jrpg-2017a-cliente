@@ -3,8 +3,14 @@ package mensajeria;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import comandos.Comando;
+//REVISADO
 public class PaqueteAtacar extends Paquete implements Serializable, Cloneable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private int idEnemigo;
 	private int nuevaSaludPersonaje;
@@ -80,7 +86,5 @@ public class PaqueteAtacar extends Paquete implements Serializable, Cloneable {
 
 		return mapa;
 	}
-
-
 
 }

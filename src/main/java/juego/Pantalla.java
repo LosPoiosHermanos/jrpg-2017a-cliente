@@ -19,10 +19,10 @@ import javax.swing.JOptionPane;
 import com.google.gson.Gson;
 
 import cliente.Cliente;
+import comandos.Comando;
 import frames.MenuJugar;
-import mensajeria.Comando;
 import mensajeria.Paquete;
-
+//REVISADO
 public class Pantalla {
 
 	private JFrame pantalla;

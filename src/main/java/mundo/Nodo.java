@@ -1,5 +1,5 @@
 package mundo;
-
+//REVISADO
 public class Nodo {
 
 	private int x;

@@ -1,7 +1,7 @@
 package entidades;
 
 import java.awt.image.BufferedImage;
-
+//REVISADO
 public class Animacion {
 
 	private int velocidad;

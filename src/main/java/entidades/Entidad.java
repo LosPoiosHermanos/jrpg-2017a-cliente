@@ -7,18 +7,14 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
-
 import javax.swing.JOptionPane;
-
 import com.google.gson.Gson;
-
 import dominio.Inventario;
 import juego.Juego;
 import juego.Pantalla;
 import mensajeria.PaqueteBatalla;
 import mensajeria.PaqueteComercio;
 import mensajeria.PaqueteMovimiento;
-import mensajeria.PaquetePersonaje;
 import mundo.Grafo;
 import mundo.Mundo;
 import mundo.Nodo;
@@ -26,7 +22,7 @@ import recursos.Recursos;
 import entidades.Animacion;
 import estados.Estado;
 import interfaz.MenuInfoPersonaje;
-
+//REVISADO
 public class Entidad {
 
 	Juego juego;
@@ -50,8 +46,6 @@ public class Entidad {
 	private int drawY;
 	private int posMouseRecorrido[];
 	private int posMouse[];
-	private int[] tile;
-
 	// Movimiento Actual
 	private static final int horizontalDer = 4;
 	private static final int horizontalIzq = 0;
@@ -168,32 +162,33 @@ public class Entidad {
 							try {
 								juego.getCliente().getSalida().writeObject(gson.toJson(pBatalla));
 							} catch (IOException e) {
-								JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor");
+								JOptionPane.showMessageDialog(null, "Fallo la conexion con el servidor");
 								e.printStackTrace();
 							}
-						}
-						else{
-							// pregunto si el menu emergente es de tipo comercio sabri
+						} else {
+							// pregunto si el menu emergente es de tipo comercio
+							// sabri
 							if (juego.getEstadoJuego().getTipoSolicitud() == MenuInfoPersonaje.menuMercado) {
 								PaqueteComercio pComercio = new PaqueteComercio();
 								Inventario inventario = new Inventario(juego.getPersonaje().getInventario());
-								if(inventario.getCantidadObjetos() > 0){
+								if (inventario.getCantidadObjetos() > 0) {
 									pComercio.setId(juego.getPersonaje().getId());
 									pComercio.setIdEnemigo(idEnemigo);
-	
+
 									juego.getEstadoJuego().setHaySolicitud(false, null, 0);
-		
+
 									try {
 										juego.getCliente().getSalida().writeObject(gson.toJson(pComercio));
 									} catch (IOException e) {
-										JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor");
+										JOptionPane.showMessageDialog(null, "Fallo la conexion con el servidor");
 										e.printStackTrace();
 									}
-									juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje(), MenuInfoPersonaje.mercadoFallido);
+									juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje(),
+											MenuInfoPersonaje.mercadoFallido);
 								}
-								
-							}else {
-							juego.getEstadoJuego().setHaySolicitud(false, null, 0);
+
+							} else {
+								juego.getEstadoJuego().setHaySolicitud(false, null, 0);
 							}
 						}
 					} else if (juego.getEstadoJuego().getMenuEnemigo().clickEnCerrar(posMouse[0], posMouse[1])) {
@@ -220,16 +215,23 @@ public class Entidad {
 
 						if (tileMoverme[0] == tilePersonajes[0] && tileMoverme[1] == tilePersonajes[1]) {
 							idEnemigo = actual.getIdPersonaje();
-							if(tileMoverme[0]>41 && tileMoverme[1] < 30){ //si esta en el mapa de mercado sabri  
+							if (tileMoverme[0] > 41 && tileMoverme[1] < 30) { // si
+																				// esta
+																				// en
+																				// el
+																				// mapa
+																				// de
+																				// mercado
+																				// sabri
 								juego.getEstadoJuego().setHaySolicitud(true,
-								juego.getEscuchaMensajes().getPersonajesConectados().get(idEnemigo),
-								MenuInfoPersonaje.menuMercado);	
-							}else{
+										juego.getEscuchaMensajes().getPersonajesConectados().get(idEnemigo),
+										MenuInfoPersonaje.menuMercado);
+							} else {
 								juego.getEstadoJuego().setHaySolicitud(true,
-								juego.getEscuchaMensajes().getPersonajesConectados().get(idEnemigo),
-								MenuInfoPersonaje.menuBatallar);
+										juego.getEscuchaMensajes().getPersonajesConectados().get(idEnemigo),
+										MenuInfoPersonaje.menuBatallar);
 							}
-								
+
 							juego.getHandlerMouse().setNuevoClick(false);
 						}
 					}
@@ -449,7 +451,7 @@ public class Entidad {
 			juego.getCliente().getSalida()
 					.writeObject(gson.toJson(juego.getUbicacionPersonaje(), PaqueteMovimiento.class));
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor.");
+			JOptionPane.showMessageDialog(null, "Fallo la conexion con el servidor.");
 			e.printStackTrace();
 		}
 	}

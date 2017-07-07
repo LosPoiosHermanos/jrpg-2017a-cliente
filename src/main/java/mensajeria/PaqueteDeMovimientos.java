@@ -2,9 +2,13 @@ package mensajeria;
 
 import java.io.Serializable;
 import java.util.Map;
-
+//REVISADO
 public class PaqueteDeMovimientos extends Paquete implements Serializable, Cloneable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Map<Integer, PaqueteMovimiento> personajes;
 
 	public PaqueteDeMovimientos() {

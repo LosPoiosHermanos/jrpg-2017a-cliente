@@ -1,9 +1,9 @@
 package juego;
 
 import cliente.Cliente;
-import mensajeria.Comando;
+import comandos.Comando;
 import recursos.Recursos;
-
+//REVISADO
 public class CargarRecursos extends Thread {
 
 	private Cliente cliente;

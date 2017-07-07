@@ -4,19 +4,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.Scrollbar;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-
-import javax.swing.JScrollPane;
-
 import dominio.Inventario;
 import dominio.Objeto;
 import dominio.Personaje;
 import juego.Pantalla;
 import mensajeria.PaquetePersonaje;
 import recursos.Recursos;
-
+//REVISADO
 public class MenuInfoPersonaje {
 
 	private static final int anchoPersonaje = 128;
@@ -30,8 +25,9 @@ public class MenuInfoPersonaje {
 	public static final int menuMercado = 6;
 	public static final int mercadoExitoso = 7;
 	public static final int mercadoFallido = 8;
-	
-	private static final String[] leyendaBoton = { "Batallar", "Volver", "Aceptar", "Aceptar", "Aceptar", "Aceptar", "Comerciar", "Aceptar", "Aceptar" };
+
+	private static final String[] leyendaBoton = { "Batallar", "Volver", "Aceptar", "Aceptar", "Aceptar", "Aceptar",
+			"Comerciar", "Aceptar", "Aceptar" };
 
 	private int x;
 	private int y;
@@ -88,7 +84,7 @@ public class MenuInfoPersonaje {
 		case mercadoFallido:
 			graficarMercadoFallido(g);
 			break;
-			
+
 		}
 
 		// muestro los botones
@@ -97,10 +93,6 @@ public class MenuInfoPersonaje {
 		g.setColor(Color.WHITE);
 		Pantalla.centerString(g, new Rectangle(x + 50, y + 380, 200, 25), leyendaBoton[tipoMenu]);
 	}
-
-
-
-
 
 	private void graficarMenuPerderBatalla(Graphics g) {
 
@@ -179,44 +171,48 @@ public class MenuInfoPersonaje {
 			return true;
 		return false;
 	}
-	//Muestro el inventario 
+
+	// Muestro el inventario
 	private void graficarMenuInventario(Graphics g) {
 		g.setFont(new Font("Book Antiqua", 0, 12));
 		g.setColor(Color.BLACK);
-		
+
 		Pantalla.centerString(g, new Rectangle(x, y + 185, menu.getWidth(), 0), "!INVENTARIO!");
 		Inventario inventario = new Inventario(personaje.getInventario());
 		int posicion = 30;
-		
+
 		for (Objeto obj : inventario.getObjetos()) {
-			if(obj.getId() > 0){
-				//falta scroll o cambiar ventana
+			if (obj.getId() > 0) {
+				// falta scroll o cambiar ventana
 				Pantalla.centerString(g, new Rectangle(x, y + (190 + posicion), menu.getWidth(), 0),
-						obj.getNombre() + " - " + obj.getAtributoModificado()+ " + " + obj.getAtributo());
+						obj.getNombre() + " - " + obj.getAtributoModificado() + " + " + obj.getValor());
 				posicion += 30;
-				
+
 			}
 		}
-		if(posicion == 30){
+		if (posicion == 30) {
 			Pantalla.centerString(g, new Rectangle(x, y + (200 + posicion), menu.getWidth(), 0),
 					"No tiene elementos por el momento");
 		}
 	}
+
 	private void graficarMenuMercado(Graphics g) {
 		// muestro los nombres de los atributos
 		g.setColor(Color.BLACK);
 		Pantalla.centerString(g, new Rectangle(x, y + 200, menu.getWidth(), 0), personaje.getRaza());
 		// muestro los atributos
 		g.setFont(new Font("Book Antiqua", 0, 18));
-		
+
 		Inventario inventario = new Inventario(personaje.getInventario());
-		if(inventario.getCantidadObjetos() >= 0){
-			Pantalla.centerString(g, new Rectangle(x, y + 250 , menu.getWidth(), 0), "¿Quiere comerciar con "+personaje.getNombre()+" ?");
-			Pantalla.centerString(g, new Rectangle(x, y + 290 , menu.getWidth(), 0), "Tiene "+ inventario.getCantidadObjetos() + " objetos.");
+		if (inventario.getCantidadObjetos() >= 0) {
+			Pantalla.centerString(g, new Rectangle(x, y + 250, menu.getWidth(), 0),
+					"¿Quiere comerciar con " + personaje.getNombre() + " ?");
+			Pantalla.centerString(g, new Rectangle(x, y + 290, menu.getWidth(), 0),
+					"Tiene " + inventario.getCantidadObjetos() + " objetos.");
 		}
-	
+
 	}
-	
+
 	private void graficarMercadoExitoso(Graphics g) {
 		g.setColor(Color.BLACK);
 		Pantalla.centerString(g, new Rectangle(x, y + 200, menu.getWidth(), 0), "!Has estado ");
@@ -227,13 +223,15 @@ public class MenuInfoPersonaje {
 		Pantalla.centerString(g, new Rectangle(x, y + 290, menu.getWidth(), 0), "los elementos conseguidos");
 		Pantalla.centerString(g, new Rectangle(x, y + 310, menu.getWidth(), 0), "sigue asi, para subir de nivel");
 		Pantalla.centerString(g, new Rectangle(x, y + 330, menu.getWidth(), 0), "y mejorar tus atributos.");
-		
+
 	}
+
 	private void graficarMercadoFallido(Graphics g) {
 		g.setColor(Color.BLACK);
 		Pantalla.centerString(g, new Rectangle(x, y + 200, menu.getWidth(), 0), "No has podido ");
 		Pantalla.centerString(g, new Rectangle(x, y + 230, menu.getWidth(), 0), "intercambiar");
 		Pantalla.centerString(g, new Rectangle(x, y + 260, menu.getWidth(), 0), "un elemento");
+		
 
 	}
 }

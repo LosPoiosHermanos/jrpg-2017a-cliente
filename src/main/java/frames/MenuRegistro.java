@@ -1,24 +1,15 @@
 package frames;
 
 import java.awt.Color;
-
 import javax.swing.JFrame;
-
 import cliente.*;
-import mensajeria.Comando;
-
+import comandos.Comando;
 import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Toolkit;
-
-/*import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;*/
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
-
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
@@ -26,9 +17,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JLayeredPane;
-
+//REVISADO
 public class MenuRegistro extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtUsuario;
 	private JPasswordField pwPassword;
 
@@ -97,6 +92,8 @@ public class MenuRegistro extends JFrame {
 		layeredPane.add(labelBackground, new Integer(0));
 		labelBackground.setIcon(new ImageIcon(MenuRegistro.class.getResource("/frames/menuBackground.jpg")));
 		btnRegistrarse.addActionListener(new ActionListener() {
+			//siso
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				synchronized (cliente) {
 					cliente.getPaqueteUsuario().setUsername(txtUsuario.getText());

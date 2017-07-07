@@ -1,9 +1,13 @@
 package mensajeria;
 
 import java.io.Serializable;
-
+//REVISADO
 public class PaqueteUsuario extends Paquete implements Serializable, Cloneable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int idPj;
 	private String username;
 	private String password;

@@ -3,20 +3,21 @@ package cliente;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.Map;
-
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-
 import com.google.gson.Gson;
-
 import cliente.Cliente;
 import estados.Estado;
 import estados.EstadoBatalla;
 import estados.EstadoComercio;
 import juego.Juego;
-import mensajeria.Comando;
+import mensajeria.ChatPrivado;
+import comandos.Comando;
+import mensajeria.Multichat;
 import mensajeria.Paquete;
 import mensajeria.PaqueteAtacar;
 import mensajeria.PaqueteBatalla;
+import mensajeria.PaqueteChat;
 import mensajeria.PaqueteComercio;
 import mensajeria.PaqueteDeMovimientos;
 import mensajeria.PaqueteDePersonajes;
@@ -32,7 +33,11 @@ public class EscuchaMensajes extends Thread {
 	private Cliente cliente;
 	private ObjectInputStream entrada;
 	private final Gson gson = new Gson();
-
+	private ChatPrivado chat;
+	PaqueteMovimiento personaje;
+	PaqueteFinalizarBatalla paqueteFinalizarBatalla;
+	PaqueteFinalizarComercio paqueteFinalizarComercio;
+	
 	private Map<Integer, PaqueteMovimiento> ubicacionPersonajes;
 	private Map<Integer, PaquetePersonaje> personajesConectados;
 
@@ -47,12 +52,10 @@ public class EscuchaMensajes extends Thread {
 		try {
 
 			Paquete paquete;
+			PaqueteChat paqueteChat;
 			PaquetePersonaje paquetePersonaje;
-			PaqueteMovimiento personaje;
 			PaqueteBatalla paqueteBatalla;
 			PaqueteAtacar paqueteAtacar;
-			PaqueteFinalizarBatalla paqueteFinalizarBatalla;
-			PaqueteFinalizarComercio paqueteFinalizarComercio;
 			PaqueteComercio paqueteComercio;
 			PaqueteTrueque paqueteTrueque;
 			personajesConectados = new HashMap<>();
@@ -69,6 +72,7 @@ public class EscuchaMensajes extends Thread {
 				case Comando.CONEXION:
 					personajesConectados = (Map<Integer, PaquetePersonaje>) gson
 							.fromJson(objetoLeido, PaqueteDePersonajes.class).getPersonajes();
+					actualizarLista(cliente);
 					break;
 
 				case Comando.MOVIMIENTO:
@@ -90,21 +94,10 @@ public class EscuchaMensajes extends Thread {
 					HashMap<String, Integer> mapa = paqueteAtacar.getHashMap(paqueteAtacar.getNuevaSaludPersonaje(),
 							paqueteAtacar.getNuevaEnergiaPersonaje());
 					juego.getEstadoBatalla().getEnemigo().actualizar(mapa);
-					/*
-					 * juego.getEstadoBatalla().getEnemigo().setSalud(
-					 * paqueteAtacar.getNuevaSaludPersonaje());
-					 * juego.getEstadoBatalla().getEnemigo().setEnergia(
-					 * paqueteAtacar.getNuevaEnergiaPersonaje());
-					 */
 
 					mapa = paqueteAtacar.getHashMap(paqueteAtacar.getNuevaSaludEnemigo(),
 							paqueteAtacar.getNuevaEnergiaEnemigo());
-					/*
-					 * juego.getEstadoBatalla().getPersonaje().setSalud(
-					 * paqueteAtacar.getNuevaSaludEnemigo());
-					 * juego.getEstadoBatalla().getPersonaje().setEnergia(
-					 * paqueteAtacar.getNuevaEnergiaEnemigo());
-					 */
+
 					juego.getEstadoBatalla().getPersonaje().actualizar(mapa);
 
 					juego.getEstadoBatalla().setMiTurno(true);
@@ -128,6 +121,28 @@ public class EscuchaMensajes extends Thread {
 						juego.getEstadoJuego().actualizarPersonaje();
 					}
 					break;
+
+				case Comando.ENVIARCHAT:
+					paqueteChat = gson.fromJson(objetoLeido, PaqueteChat.class);
+					if (paqueteChat.getReceptor() == null)
+						juego.getMultichat().getMensajes()
+								.append(paqueteChat.getEmisor() + ": " + paqueteChat.getMensaje() + "\n");
+					else {
+						if (cliente.getPaquetePersonaje().getNombre().equals(paqueteChat.getReceptor())) {
+							if (!(cliente.getChatActivos().containsKey(paqueteChat.getEmisor()))) {
+								chat = new ChatPrivado(cliente, paqueteChat.getEmisor());
+								chat.setTitle("Chat privado con : " + paqueteChat.getEmisor());
+								chat.setVisible(true);
+
+								cliente.getChatActivos().put(paqueteChat.getEmisor(), chat);
+							}
+							cliente.getChatActivos().get(paqueteChat.getEmisor()).getMensajes()
+									.append(paqueteChat.getEmisor() + ": " + paqueteChat.getMensaje() + "\n");
+							cliente.getChatActivos().get(paqueteChat.getEmisor()).getChat().grabFocus();
+						}
+					}
+					break;
+
 				case Comando.COMERCIO:
 					paqueteComercio = gson.fromJson(objetoLeido, PaqueteComercio.class);
 					juego.getPersonaje().setEstado(Estado.estadoComercio);
@@ -135,24 +150,26 @@ public class EscuchaMensajes extends Thread {
 					juego.setEstadoComercio(new EstadoComercio(juego, paqueteComercio));
 					Estado.setEstado(juego.getEstadoComercio());
 					break;
-					
+
 				case Comando.FINALIZARCOMERCIO:
 					paqueteFinalizarComercio = (PaqueteFinalizarComercio) gson.fromJson(objetoLeido,
 							PaqueteFinalizarComercio.class);
 					juego.getPersonaje().setEstado(Estado.estadoJuego);
 					Estado.setEstado(juego.getEstadoJuego());
 					break;
+
 				case Comando.TRUEQUE:
 					paqueteTrueque = (PaqueteTrueque) gson.fromJson(objetoLeido, PaqueteTrueque.class);
-					//envio el que quiere intercambiar
-					if(paqueteTrueque.getNuevoObjeto() == 0  && paqueteTrueque.getNuevoObjetoEnemigo() != 0){	
+					// envio el que quiere intercambiar
+					if (paqueteTrueque.getNuevoObjeto() == 0 && paqueteTrueque.getNuevoObjetoEnemigo() != 0) {
 						juego.getEstadoComercio().setMiTurno(true);
 						juego.getEstadoComercio().mostrarTrueque(paqueteTrueque.getNuevoObjetoEnemigo());
-						
-					}else{//envia respuesta
-						if(paqueteTrueque.getNuevoObjeto() > 0  && paqueteTrueque.getNuevoObjetoEnemigo() > 0 ){	
+
+					} else {// envia respuesta
+						if (paqueteTrueque.getNuevoObjeto() > 0 && paqueteTrueque.getNuevoObjetoEnemigo() > 0) {
 							juego.getEstadoComercio().setMiTurno(true);
-							juego.getEstadoComercio().mostrarTrueque( paqueteTrueque.getNuevoObjeto(), paqueteTrueque.getNuevoObjetoEnemigo());
+							juego.getEstadoComercio().mostrarTrueque(paqueteTrueque.getNuevoObjeto(),
+									paqueteTrueque.getNuevoObjetoEnemigo());
 						}
 					}
 					break;
@@ -160,8 +177,30 @@ public class EscuchaMensajes extends Thread {
 				}
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor.");
+			JOptionPane.showMessageDialog(null, "Fallo la conexion con el servidor. SISO QUE TOCASTE");
 			e.printStackTrace();
+		}
+	}
+	//siso
+	@SuppressWarnings("unchecked")
+	public void actualizarLista(final Cliente cliente) {
+		DefaultListModel<String> modelo = new DefaultListModel<String>();
+		synchronized (cliente) {
+			try {
+				cliente.wait(300);
+				Multichat.getLista().removeAll();
+				// cliente.getJuego().getEscuchaMensajes().getPersonajesConectados().remove(cliente.getPaquetePersonaje().getId());
+				if (cliente.getJuego().getEscuchaMensajes().getPersonajesConectados() != null) {
+					for (Map.Entry<Integer, PaquetePersonaje> personajes : personajesConectados.entrySet()) {
+						if (!personajes.getValue().getNombre().equals(cliente.getPaquetePersonaje().getNombre()))
+							modelo.addElement(personajes.getValue().getNombre());
+					}
+					Multichat.getLista().setModel(modelo);
+				}
+			} catch (InterruptedException e) {
+				JOptionPane.showMessageDialog(null, "Fallo la carga de usuarios conectados");
+				e.printStackTrace();
+			}
 		}
 	}
 

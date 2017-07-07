@@ -9,22 +9,19 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
 import javax.swing.JOptionPane;
-
 import com.google.gson.Gson;
-
 import entidades.Entidad;
 import interfaz.EstadoDePersonaje;
 import interfaz.MenuInfoPersonaje;
 import juego.Juego;
 import juego.Pantalla;
-import mensajeria.Comando;
+import comandos.Comando;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 import mundo.Mundo;
 import recursos.Recursos;
-
+//REVISADO
 public class EstadoJuego extends Estado {
 
 	private Entidad entidadPersonaje;
@@ -57,7 +54,7 @@ public class EstadoJuego extends Estado {
 			juego.getCliente().getSalida()
 					.writeObject(gson.toJson(juego.getUbicacionPersonaje(), PaqueteMovimiento.class));
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor al ingresar al mundo.");
+			JOptionPane.showMessageDialog(null, "Fallo la conexion con el servidor al ingresar al mundo.");
 			e.printStackTrace();
 		}
 	}

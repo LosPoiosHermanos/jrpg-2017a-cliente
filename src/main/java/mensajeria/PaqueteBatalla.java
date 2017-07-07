@@ -2,8 +2,14 @@ package mensajeria;
 
 import java.io.Serializable;
 
+import comandos.Comando;
+//REVISADO
 public class PaqueteBatalla extends Paquete implements Serializable, Cloneable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private int idEnemigo;
 	private boolean miTurno;

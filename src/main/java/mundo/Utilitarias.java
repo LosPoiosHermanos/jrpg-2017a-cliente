@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.JOptionPane;
-
+//REVISADO
 public class Utilitarias {
 
 	public static String archivoAString(String path) {

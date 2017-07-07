@@ -6,17 +6,18 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
-
 import com.google.gson.Gson;
-
+import comandos.Comando;
 import frames.MenuCarga;
 import frames.MenuCreacionPj;
 import frames.MenuJugar;
 import frames.MenuMapas;
 import juego.Juego;
-import mensajeria.Comando;
+import mensajeria.ChatPrivado;
 import mensajeria.Paquete;
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
@@ -27,6 +28,7 @@ public class Cliente extends Thread {
 	private String miIp;
 	private ObjectInputStream entrada;
 	private ObjectOutputStream salida;
+	private Map<String, ChatPrivado> chatActivos = new HashMap<>();
 
 	// Objeto gson
 	private final Gson gson = new Gson();
@@ -74,7 +76,7 @@ public class Cliente extends Thread {
 			salida = new ObjectOutputStream(cliente.getOutputStream());
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,
-					"Fallo al iniciar la aplicación." + "Revise la conexión con el servidor.");
+					"Fallo al iniciar la aplicación." + "Revise la conexion con el servidor.");
 			System.exit(1);
 			e.printStackTrace();
 		}
@@ -88,7 +90,7 @@ public class Cliente extends Thread {
 			salida = new ObjectOutputStream(cliente.getOutputStream());
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,
-					"Fallo al iniciar la aplicación. " + "Revise la conexión con el servidor.");
+					"Fallo al iniciar la aplicación. " + "Revise la conexion con el servidor.");
 			System.exit(1);
 			e.printStackTrace();
 		}
@@ -97,12 +99,11 @@ public class Cliente extends Thread {
 	public void run() {
 		synchronized (this) {
 			try {
-
+//				ChainOfResponsability chain = new ChainOfResponsability();
 				// Creo el paquete que le voy a enviar al servidor
 				paqueteUsuario = new PaqueteUsuario();
 
 				while (!paqueteUsuario.isInicioSesion()) {
-
 					// Muestro el menu principal
 					new MenuJugar(this).setVisible(true);
 
@@ -110,9 +111,13 @@ public class Cliente extends Thread {
 					paqueteUsuario = new PaqueteUsuario();
 					paquetePersonaje = new PaquetePersonaje();
 
+					// Creo los paquetes que le voy a enviar al servidor
+					paqueteUsuario = new PaqueteUsuario();
+					paquetePersonaje = new PaquetePersonaje();
+
 					// Espero a que el usuario seleccione alguna accion
 					wait();
-
+					
 					switch (getAccion()) {
 
 					case Comando.REGISTRO:
@@ -126,7 +131,6 @@ public class Cliente extends Thread {
 						paqueteUsuario.setComando(Comando.SALIR);
 						break;
 					}
-
 					// Le envio el paquete al servidor
 					salida.writeObject(gson.toJson(paqueteUsuario));
 
@@ -134,6 +138,10 @@ public class Cliente extends Thread {
 					String cadenaLeida = (String) entrada.readObject();
 					Paquete paquete = gson.fromJson(cadenaLeida, Paquete.class);
 
+//					chain.setCadena(cadenaLeida);
+//					chain.setCliente(this);
+//					chain.solicitudDelComando(paquete.getComando());
+					
 					switch (paquete.getComando()) {
 
 					case Comando.REGISTRO:
@@ -163,7 +171,7 @@ public class Cliente extends Thread {
 							if (paquete.getMensaje().equals(Paquete.msjFracaso))
 								JOptionPane.showMessageDialog(null, "No se pudo registrar.");
 
-							// El usuario no pudo iniciar sesión
+							// El usuario no pudo iniciar sesion
 							paqueteUsuario.setInicioSesion(false);
 						}
 						break;
@@ -171,7 +179,7 @@ public class Cliente extends Thread {
 					case Comando.INICIOSESION:
 						if (paquete.getMensaje().equals(Paquete.msjExito)) {
 
-							// El usuario ya inicio sesión
+							// El usuario ya inicio sesion
 							paqueteUsuario.setInicioSesion(true);
 
 							// Recibo el paquete personaje con los datos
@@ -180,15 +188,15 @@ public class Cliente extends Thread {
 						} else {
 							if (paquete.getMensaje().equals(Paquete.msjFracaso))
 								JOptionPane.showMessageDialog(null,
-										"Error al iniciar sesión. Revise el usuario y la contraseña");
+										"Error al iniciar sesion. Revise el usuario y la contraseña");
 
-							// El usuario no pudo iniciar sesión
+							// El usuario no pudo iniciar sesion
 							paqueteUsuario.setInicioSesion(false);
 						}
 						break;
 
 					case Comando.SALIR:
-						// El usuario no pudo iniciar sesión
+						// El usuario no pudo iniciar sesion
 						paqueteUsuario.setInicioSesion(false);
 						salida.writeObject(gson.toJson(new Paquete(Comando.DESCONECTAR), Paquete.class));
 						cliente.close();
@@ -232,9 +240,11 @@ public class Cliente extends Thread {
 				// Finalizo el menu de carga
 				menuCarga.dispose();
 
-			} catch (IOException | InterruptedException | ClassNotFoundException e) {
-				JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor durante el inicio de sesión.");
+			} catch (IOException | InterruptedException e) {
+				JOptionPane.showMessageDialog(null, "Fallo la conexion con el servidor durante el inicio de sesion.");
 				System.exit(1);
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 		}
@@ -288,4 +298,61 @@ public class Cliente extends Thread {
 	public MenuCarga getMenuCarga() {
 		return menuCarga;
 	}
+
+	public Socket getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Socket cliente) {
+		this.cliente = cliente;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public int getPuerto() {
+		return puerto;
+	}
+
+	public void setPuerto(int puerto) {
+		this.puerto = puerto;
+	}
+
+	public Juego getWome() {
+		return wome;
+	}
+
+	public void setWome(Juego wome) {
+		this.wome = wome;
+	}
+
+	public Gson getGson() {
+		return gson;
+	}
+
+	public void setPaqueteUsuario(PaqueteUsuario paqueteUsuario) {
+		this.paqueteUsuario = paqueteUsuario;
+	}
+
+	public void setPaquetePersonaje(PaquetePersonaje paquetePersonaje) {
+		this.paquetePersonaje = paquetePersonaje;
+	}
+
+	public void setMenuCarga(MenuCarga menuCarga) {
+		this.menuCarga = menuCarga;
+	}
+
+	public Map<String, ChatPrivado> getChatActivos() {
+		return chatActivos;
+	}
+
+	public void setChatActivos(Map<String, ChatPrivado> chatActivos) {
+		this.chatActivos = chatActivos;
+	}
+
 }

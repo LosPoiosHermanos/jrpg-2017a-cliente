@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import cliente.Cliente;
-import mensajeria.Comando;
+import comandos.Comando;
 import mensajeria.Paquete;
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;

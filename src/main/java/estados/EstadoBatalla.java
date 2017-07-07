@@ -4,11 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.swing.JOptionPane;
-
 import com.google.gson.Gson;
-
 import dominio.Asesino;
 import dominio.Casta;
 import dominio.Elfo;
@@ -23,14 +20,14 @@ import interfaz.EstadoDePersonaje;
 import interfaz.MenuBatalla;
 import interfaz.MenuInfoPersonaje;
 import juego.Juego;
-import mensajeria.Comando;
+import comandos.Comando;
 import mensajeria.PaqueteAtacar;
 import mensajeria.PaqueteBatalla;
 import mensajeria.PaqueteFinalizarBatalla;
 import mensajeria.PaquetePersonaje;
 import mundo.Mundo;
 import recursos.Recursos;
-
+//REVISADO
 public class EstadoBatalla extends Estado {
 
 	private Mundo mundo;
@@ -159,7 +156,7 @@ public class EstadoBatalla extends Estado {
 						
 						if(obj.getId() > 0)
 							JOptionPane.showMessageDialog(null,
-								" Ha ganado el Bonus:\n" + obj.getNombre()+" -> " +obj.getAtributoModificado() + " + " +obj.getAtributo()+"  ");
+								" Ha ganado el Bonus:\n" + obj.getNombre()+" -> " +obj.getAtributoModificado() + " + " +obj.getValor()+"  ");
 						
 						Estado.setEstado(juego.getEstadoJuego());
 					} else {
@@ -303,7 +300,7 @@ public class EstadoBatalla extends Estado {
 			juego.getCliente().getSalida().writeObject(gson.toJson(paquetePersonaje));
 			juego.getCliente().getSalida().writeObject(gson.toJson(paqueteEnemigo));
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Fallo la conexión con el servidor.");
+			JOptionPane.showMessageDialog(null, "Fallo la conexion con el servidor.");
 			e.printStackTrace();
 		}
 	}
