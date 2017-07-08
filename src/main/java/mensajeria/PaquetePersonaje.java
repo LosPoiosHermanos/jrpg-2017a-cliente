@@ -23,7 +23,7 @@ public class PaquetePersonaje extends Paquete implements Serializable, Cloneable
 	private int inteligencia;
 	private int nivel;
 	private int experiencia;
-	private int[] inventario = new int[Inventario.MAX_OBJETOS];
+	private int[] inventario = new int[Inventario.MAXOBJETOS];
 
 	public PaquetePersonaje() {
 		estado = Estado.estadoOffline;
