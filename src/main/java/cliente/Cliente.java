@@ -11,9 +11,10 @@ import java.util.Map;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 import com.google.gson.Gson;
+
+import comandos.ChainOfResponsability;
 import comandos.Comando;
 import frames.MenuCarga;
-import frames.MenuCreacionPj;
 import frames.MenuJugar;
 import frames.MenuMapas;
 import juego.Juego;
@@ -57,6 +58,18 @@ public class Cliente extends Thread {
 
 	public Cliente() {
 
+//		Scanner sc;
+//
+//		try {
+//			sc = new Scanner(new File("config.txt"));
+//			ip = sc.nextLine();
+//			puerto = sc.nextInt();
+//			sc.close();
+//		} catch (FileNotFoundException e) {
+//			JOptionPane.showMessageDialog(null, "No se ha encontrado el archivo de configuracion config.txt");
+//			e.printStackTrace();
+//		}
+//		//fer
 		ip = Configuracion.getIp().getText();
 		puerto = Integer.parseInt(Configuracion.getPuerto().getText());
 
@@ -67,7 +80,7 @@ public class Cliente extends Thread {
 			salida = new ObjectOutputStream(cliente.getOutputStream());
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,
-					"Fallo al iniciar la aplicación." + "Revise la conexion con el servidor.");
+					"Fallo al iniciar la aplicacion." + "Revise la conexion con el servidor.");
 			System.exit(1);
 			e.printStackTrace();
 		}
@@ -81,7 +94,7 @@ public class Cliente extends Thread {
 			salida = new ObjectOutputStream(cliente.getOutputStream());
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,
-					"Fallo al iniciar la aplicación. " + "Revise la conexion con el servidor.");
+					"Fallo al iniciar la aplicacion. " + "Revise la conexion con el servidor.");
 			System.exit(1);
 			e.printStackTrace();
 		}
@@ -90,7 +103,7 @@ public class Cliente extends Thread {
 	public void run() {
 		synchronized (this) {
 			try {
-//				ChainOfResponsability chain = new ChainOfResponsability();
+				ChainOfResponsability chain = new ChainOfResponsability();
 				// Creo el paquete que le voy a enviar al servidor
 				paqueteUsuario = new PaqueteUsuario();
 
@@ -108,20 +121,12 @@ public class Cliente extends Thread {
 
 					// Espero a que el usuario seleccione alguna accion
 					wait();
-					
-					switch (getAccion()) {
 
-					case Comando.REGISTRO:
-						paqueteUsuario.setComando(Comando.REGISTRO);
-						break;
-					case Comando.INICIOSESION:
-						paqueteUsuario.setComando(Comando.INICIOSESION);
-						break;
-					case Comando.SALIR:
+					if (getAccion() == Comando.SALIR) {
 						paqueteUsuario.setIp(getMiIp());
-						paqueteUsuario.setComando(Comando.SALIR);
-						break;
 					}
+					paqueteUsuario.setComando(getAccion());
+
 					// Le envio el paquete al servidor
 					salida.writeObject(gson.toJson(paqueteUsuario));
 
@@ -129,114 +134,48 @@ public class Cliente extends Thread {
 					String cadenaLeida = (String) entrada.readObject();
 					Paquete paquete = gson.fromJson(cadenaLeida, Paquete.class);
 
-//					chain.setCadena(cadenaLeida);
-//					chain.setCliente(this);
-//					chain.solicitudDelComando(paquete.getComando());
-					
-					switch (paquete.getComando()) {
+					chain.setCadena(cadenaLeida);
+					chain.setCliente(this);
+					chain.solicitudDelComando(paquete.getComando());
 
-					case Comando.REGISTRO:
-						if (paquete.getMensaje().equals(Paquete.msjExito)) {
+					// Creo un paquete con el comando mostrar mapas
+					paquetePersonaje.setComando(Comando.MOSTRARMAPAS);
 
-							// Abro el menu para la creación del personaje
-							MenuCreacionPj menuCreacionPJ = new MenuCreacionPj(this, paquetePersonaje);
-							menuCreacionPJ.setVisible(true);
+					// Abro el menu de eleccion del mapa
+					MenuMapas menuElegirMapa = new MenuMapas(this);
+					menuElegirMapa.setVisible(true);
 
-							// Espero a que el usuario cree el personaje
-							wait();
+					// Espero a que el usuario elija el mapa
+					wait();
 
-							// Le envio los datos al servidor
-							paquetePersonaje.setComando(Comando.CREACIONPJ);
-							salida.writeObject(gson.toJson(paquetePersonaje));
-							JOptionPane.showMessageDialog(null, "Registro exitoso.");
+					// Establezco el mapa en el paquete personaje
+					paquetePersonaje.setIp(miIp);
 
-							// Recibo el paquete personaje con los datos (la id
-							// incluida)
-							paquetePersonaje = (PaquetePersonaje) gson.fromJson((String) entrada.readObject(),
-									PaquetePersonaje.class);
+					// Le envio el paquete con el mapa seleccionado
+					salida.writeObject(gson.toJson(paquetePersonaje));
 
-							// Indico que el usuario ya inicio sesion
-							paqueteUsuario.setInicioSesion(true);
+					// Instancio el juego y cargo los recursos
+					wome = new Juego("World Of the Middle Earth", 800, 600, this, paquetePersonaje);
 
-						} else {
-							if (paquete.getMensaje().equals(Paquete.msjFracaso))
-								JOptionPane.showMessageDialog(null, "No se pudo registrar.");
+					// Muestro el menu de carga
+					menuCarga = new MenuCarga(this);
+					menuCarga.setVisible(true);
 
-							// El usuario no pudo iniciar sesion
-							paqueteUsuario.setInicioSesion(false);
-						}
-						break;
+					// Espero que se carguen todos los recursos
+					wait();
 
-					case Comando.INICIOSESION:
-						if (paquete.getMensaje().equals(Paquete.msjExito)) {
+					// Inicio el juego
+					wome.start();
 
-							// El usuario ya inicio sesion
-							paqueteUsuario.setInicioSesion(true);
-
-							// Recibo el paquete personaje con los datos
-							paquetePersonaje = (PaquetePersonaje) gson.fromJson(cadenaLeida, PaquetePersonaje.class);
-
-						} else {
-							if (paquete.getMensaje().equals(Paquete.msjFracaso))
-								JOptionPane.showMessageDialog(null,
-										"Error al iniciar sesion. Revise el usuario y la contraseña");
-
-							// El usuario no pudo iniciar sesion
-							paqueteUsuario.setInicioSesion(false);
-						}
-						break;
-
-					case Comando.SALIR:
-						// El usuario no pudo iniciar sesion
-						paqueteUsuario.setInicioSesion(false);
-						salida.writeObject(gson.toJson(new Paquete(Comando.DESCONECTAR), Paquete.class));
-						cliente.close();
-						break;
-
-					default:
-						break;
-					}
-
+					// Finalizo el menu de carga
+					menuCarga.dispose();
 				}
-
-				// Creo un paquete con el comando mostrar mapas
-				paquetePersonaje.setComando(Comando.MOSTRARMAPAS);
-
-				// Abro el menu de eleccion del mapa
-				MenuMapas menuElegirMapa = new MenuMapas(this);
-				menuElegirMapa.setVisible(true);
-
-				// Espero a que el usuario elija el mapa
-				wait();
-
-				// Establezco el mapa en el paquete personaje
-				paquetePersonaje.setIp(miIp);
-
-				// Le envio el paquete con el mapa seleccionado
-				salida.writeObject(gson.toJson(paquetePersonaje));
-
-				// Instancio el juego y cargo los recursos
-				wome = new Juego("World Of the Middle Earth", 800, 600, this, paquetePersonaje);
-
-				// Muestro el menu de carga
-				menuCarga = new MenuCarga(this);
-				menuCarga.setVisible(true);
-
-				// Espero que se carguen todos los recursos
-				wait();
-
-				// Inicio el juego
-				wome.start();
-
-				// Finalizo el menu de carga
-				menuCarga.dispose();
-
 			} catch (IOException | InterruptedException e) {
 				JOptionPane.showMessageDialog(null, "Fallo la conexion con el servidor durante el inicio de sesion.");
 				System.exit(1);
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				JOptionPane.showMessageDialog(null, "El cliente está obsoleto, intente nuevamente.");
+				JOptionPane.showMessageDialog(null, "El cliente est� obsoleto, intente nuevamente.");
 				e.printStackTrace();
 			}
 		}

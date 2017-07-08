@@ -44,7 +44,7 @@ public class ComandoRegistro extends NextCliente {
 								.fromJson((String) cliente.getEntrada().readObject(), PaquetePersonaje.class));
 
 					} catch (InterruptedException | JsonSyntaxException | ClassNotFoundException e) {
-						JOptionPane.showMessageDialog(null, "El cliente recibido est√° obsoleto.");
+						JOptionPane.showMessageDialog(null, "El cliente recibido est· obsoleto.");
 						e.printStackTrace();
 					}
 

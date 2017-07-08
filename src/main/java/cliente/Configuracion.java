@@ -60,6 +60,7 @@ public class Configuracion extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!ip.getText().isEmpty() && !puerto.getText().isEmpty()){
 					dispose();
+					//fer descomentar esto al descomentar todo fer
 					menuInicio.getLblRegistrarse().setEnabled(true);
 					menuInicio.getBtnRegistrar().setEnabled(true);
 				}

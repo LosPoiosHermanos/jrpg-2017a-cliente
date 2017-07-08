@@ -150,7 +150,7 @@ public class EstadoBatalla extends Estado {
 									MenuInfoPersonaje.menuSubirNivel);
 						}
 						//recupero los datos del inventario
-						personaje.reestablecerInventario(juego.getPersonaje().getInventario());
+//						personaje.reestablecerInventario(juego.getPersonaje().getInventario());
 						Objeto obj = personaje.ganarObjeto();
 						finalizarBatalla();
 						
@@ -168,7 +168,7 @@ public class EstadoBatalla extends Estado {
 					}
 				} else if (haySpellSeleccionada && !seRealizoAccion) {
 					JOptionPane.showMessageDialog(null,
-							"No posees la energía suficiente para realizar esta habilidad.");
+							"No posees la energia suficiente para realizar esta habilidad.");
 				}
 				juego.getHandlerMouse().setNuevoClick(false);
 			}

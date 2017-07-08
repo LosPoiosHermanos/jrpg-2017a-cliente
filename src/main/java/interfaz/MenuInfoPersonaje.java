@@ -84,7 +84,6 @@ public class MenuInfoPersonaje {
 		case mercadoFallido:
 			graficarMercadoFallido(g);
 			break;
-
 		}
 
 		// muestro los botones
