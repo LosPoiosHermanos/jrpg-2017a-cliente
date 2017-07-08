@@ -14,7 +14,7 @@ public class PaqueteTrueque extends Paquete implements Serializable, Cloneable {
 	private int nuevoObjeto;
 	private int nuevoObjetoEnemigo;
 
-	public PaqueteTrueque(int id, int idEnemigo, int nuevoObjeto, int nuevoObjetoEnemigo, boolean hayIntercambio) {
+	public PaqueteTrueque(int id, int idEnemigo, int nuevoObjeto, int nuevoObjetoEnemigo) {
 		setComando(Comando.TRUEQUE);
 		this.id = id;
 		this.idEnemigo = idEnemigo;
