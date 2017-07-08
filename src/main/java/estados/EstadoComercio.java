@@ -41,8 +41,6 @@ public class EstadoComercio extends Estado {
 	private PaqueteFinalizarComercio paqueteFinalizarComercio;
 	private boolean miTurno;
 
-	private boolean seRealizoAccion;
-	private boolean haySeleccionado;
 	private boolean hayConfimacion;
 
 	private Gson gson = new Gson();
@@ -84,8 +82,7 @@ public class EstadoComercio extends Estado {
 		juego.getCamara().setxOffset(-350);
 		juego.getCamara().setyOffset(150);
 
-		seRealizoAccion = false;
-		haySeleccionado = false;
+
 
 		int idObjeto;
 		String entrada;
@@ -104,22 +101,25 @@ public class EstadoComercio extends Estado {
 																											// A
 																											// CANJEAR
 						if (personaje.getCantidadObjetos() > 0) {
-							do {// volver a preguntar si no esta en su lista
-								entrada = JOptionPane
-										.showInputDialog("Escriba el número indice del elemento que quiere canjear.");
-								if (entrada != null) {
-									idObjeto = Integer.parseInt(entrada);
-									seRealizoAccion = true;
-								}
-							} while (!personaje.getInventario().estaEnInventario(idObjeto));
-
+							try{
+								do {// volver a preguntar si no esta en su lista
+									entrada = JOptionPane
+											.showInputDialog("Escriba el número indice del elemento que quiere canjear.");
+									if (entrada != null) {
+										idObjeto = Integer.parseInt(entrada);
+	
+									}
+								} while (!personaje.getInventario().estaEnInventario(idObjeto));
+							}catch (NumberFormatException e) {
+								JOptionPane.showMessageDialog(null, "No ha seleccionado un id");	
+							}
 							if (idObjeto > 0) {
 								paqueteTrueque = new PaqueteTrueque(paquetePersonaje.getId(), paqueteEnemigo.getId(), 0,
-										idObjeto, false);
+										idObjeto);
 								enviarObjeto(paqueteTrueque);
 								miTurno = false;
 								menuComercio.setHabilitado(false);
-								haySeleccionado = true;
+
 							}
 
 						} else {
@@ -143,31 +143,24 @@ public class EstadoComercio extends Estado {
 						if (!hayConfimacion) {
 							juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje(),
 									MenuInfoPersonaje.mercadoFallido);
-							// si seleccionamos si retornará un cero, si es no
-							// un 1 y si es cancelar un 2 supuestamente
-							int resp = JOptionPane.showConfirmDialog(null,
-									"¿Desea intercambiar " + " " + objeto1.getNombre() + "->  "
-											+ objeto1.getAtributoModificado() + " +" + objeto1.getValor() + " \n por"
-											+ objeto2.getNombre() + "->  " + objeto2.getAtributoModificado() + " +"
-											+ objeto2.getValor() + "  ?");
+								// si seleccionamos si retornará un cero, si es no
+								// un 1 y si es cancelar un 2 supuestamente
+								int resp = JOptionPane.showConfirmDialog(null,
+										"¿Desea intercambiar " + " " + objeto1.getNombre() + "->  "
+												+ objeto1.getAtributoModificado() + " +" + objeto1.getValor() + " \n por"
+												+ objeto2.getNombre() + "->  " + objeto2.getAtributoModificado() + " +"
+												+ objeto2.getValor() + "  ?");
+								if (resp == 0) {// si respuesta es si
+									personaje.agregarObjeto(objeto2);
+									enemigo.perderObjeto(objeto2);
 
-							if (resp == 0) {// si respuesta es si
-								personaje.getInventario().agregar(objeto1);
-								enemigo.getInventario().quitarObjeto(objeto1);
+									enemigo.agregarObjeto(objeto1);
+									personaje.perderObjeto(objeto1);
 
-								enemigo.getInventario().agregar(objeto2);
-								personaje.getInventario().quitarObjeto(objeto2);
-
-								juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje(),
-										MenuInfoPersonaje.mercadoExitoso);
-
-								if (personaje.ganarExperiencia(enemigo.getNivel() * 20)) {
-									juego.getPersonaje().setNivel(personaje.getNivel());
 									juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje(),
-											MenuInfoPersonaje.menuSubirNivel);
+											MenuInfoPersonaje.mercadoExitoso);
 								}
 
-							}
 						}
 						finalizarComercio();
 
@@ -180,21 +173,32 @@ public class EstadoComercio extends Estado {
 						// si me enviaron el primer elemento
 						// confirma el objeto recibido y contesta con otro
 						idObjeto = 0;
-
-						do {
-							entrada = JOptionPane
-									.showInputDialog("Escriba el indice del elemento a canjear a cambio de: \n" + " "
-											+ objeto1.getNombre() + "->  " + objeto1.getAtributoModificado() + " +"
-											+ objeto1.getValor());
-							if (entrada != null)
-								idObjeto = Integer.parseInt(entrada);
-						} while (!personaje.getInventario().estaEnInventario(idObjeto));
-
-						paqueteTrueque = new PaqueteTrueque(paquetePersonaje.getId(), paqueteEnemigo.getId(),
-								objeto1.getId(), idObjeto, false);
-						enviarObjeto(paqueteTrueque);
-						miTurno = false;
-						menuComercio.setHabilitado(false);
+						try{
+							do {
+								entrada = JOptionPane
+										.showInputDialog("Escriba el indice del elemento a canjear a cambio de: \n" + " "
+												+ objeto1.getNombre() + "->  " + objeto1.getAtributoModificado() + " +"
+												+ objeto1.getValor());
+								if (entrada != null)
+									idObjeto = Integer.parseInt(entrada);
+							} while (!personaje.getInventario().estaEnInventario(idObjeto));
+							if(entrada != null){
+								paqueteTrueque = new PaqueteTrueque(paquetePersonaje.getId(), paqueteEnemigo.getId(),
+								objeto1.getId(), idObjeto);
+								enviarObjeto(paqueteTrueque);
+								miTurno = false;
+								menuComercio.setHabilitado(false);
+							}else{
+								JOptionPane.showMessageDialog(null, " No se concretó el intercambio.   \n Seleccione un nuevo id");
+								objeto1 = null;
+							}
+							
+							
+						}catch(NumberFormatException e){
+							JOptionPane.showMessageDialog(null, " No se concretó el intercambio.   \n Seleccione un nuevo id");
+							objeto1 = null;
+						}
+						
 					}
 				}
 				juego.getHandlerMouse().setNuevoClick(false);
