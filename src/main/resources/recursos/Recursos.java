@@ -62,8 +62,6 @@ public class Recursos {
 	public static BufferedImage marco;
 	public static BufferedImage botonMenu;
 	public static BufferedImage menuEnemigo;
-	public static BufferedImage menuComercio;
-	public static BufferedImage menuComercioDeshabilitado;
 	public static BufferedImage greenTree;
 	public static BufferedImage nievePiso1;
 	public static BufferedImage iceBlock;
@@ -80,6 +78,10 @@ public class Recursos {
 	
 	public static Map<String, BufferedImage> habilidades = new HashMap<>();
 	// Fin Batalla
+	
+	//Comercio
+	public static BufferedImage menuComercio;
+	public static BufferedImage menuComercioDeshabilitado;
 	
 	//Inventario
 	public static BufferedImage inventarioMochila;
@@ -330,11 +332,6 @@ public class Recursos {
 		actualizarBarraDeCarga(++elementosCargados, menuCarga);
 		menuEnemigo = CargadorImagen.cargarImagen("/MenuEnemigo.png");
 		actualizarBarraDeCarga(++elementosCargados, menuCarga);
-		//siso
-		menuComercio= CargadorImagen.cargarImagen("/MenuEnemigo.png");
-		actualizarBarraDeCarga(++elementosCargados, menuCarga);
-		menuComercioDeshabilitado= CargadorImagen.cargarImagen("/MenuEnemigo.png");
-		actualizarBarraDeCarga(++elementosCargados, menuCarga);
 		trees = new SpriteSheet(CargadorImagen.cargarImagen("/trees.png"));  
 		actualizarBarraDeCarga(++elementosCargados, menuCarga);
 		greenTree = trees.getTile(0, 0, 42, 50);
@@ -438,6 +435,12 @@ public class Recursos {
 		menuBatallaDeshabilitado = CargadorImagen.cargarImagen("/MenuBatallaDeshabilitado.png");
 		actualizarBarraDeCarga(++elementosCargados, menuCarga);
 		// Fin Batalla
+		
+		menuComercio = CargadorImagen.cargarImagen("/MenuEnemigo.png");
+		actualizarBarraDeCarga(++elementosCargados, menuCarga);
+		
+		menuComercioDeshabilitado = CargadorImagen.cargarImagen("/MenuEnemigoDes.png");//sabri comercio despues reemplazo la imagen
+		actualizarBarraDeCarga(++elementosCargados, menuCarga);
 	}
 
 	private static void actualizarBarraDeCarga(int elementosCargados, MenuCarga menuCarga) {
