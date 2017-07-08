@@ -1,6 +1,8 @@
 package mensajeria;
 
 import java.io.Serializable;
+
+import javax.swing.JOptionPane;
 //REVISADO
 public class Paquete implements Serializable, Cloneable {
 
@@ -63,6 +65,7 @@ public class Paquete implements Serializable, Cloneable {
 		try {
 			obj = super.clone();
 		} catch (CloneNotSupportedException ex) {
+			JOptionPane.showMessageDialog(null, "Error al intentar clonar paquete.");
 			ex.printStackTrace();
 		}
 		return obj;

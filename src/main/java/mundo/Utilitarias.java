@@ -32,6 +32,7 @@ public class Utilitarias {
 		try {
 			return Integer.parseInt(numero);
 		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Error al convertir string a entero.");
 			e.printStackTrace();
 			return 0;
 		}

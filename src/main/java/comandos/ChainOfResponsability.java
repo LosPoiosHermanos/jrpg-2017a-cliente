@@ -2,6 +2,8 @@ package comandos;
 
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 public class ChainOfResponsability extends NextCliente {
 	private NextCliente nextCliente;
 
@@ -25,6 +27,7 @@ public class ChainOfResponsability extends NextCliente {
 		try {
 			nextCliente.solicitudDelComando(comando);
 		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "No se pudo leer la entrada de datos.");
 			e.printStackTrace();
 		}
 

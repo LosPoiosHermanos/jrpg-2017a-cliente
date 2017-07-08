@@ -14,6 +14,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import cliente.Cliente;
+import cliente.Configuracion;
 //REVISADO
 public class MenuInicio extends JFrame {
 
@@ -22,6 +23,8 @@ public class MenuInicio extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JButton btnRegistrar;
+	private JLabel lblRegistrarse;
 
 	public MenuInicio() {
 
@@ -41,6 +44,9 @@ public class MenuInicio extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		Configuracion c = new Configuracion(this);
+		c.setVisible(true);
+		
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(MenuCarga.class.getResource("/frames/WOME.png")));
 		lblLogo.setBounds(109, 39, 216, 90);
@@ -51,11 +57,11 @@ public class MenuInicio extends JFrame {
 		contentPane.add(layeredPane);
 
 		// Boton Jugar
-		JLabel lblRegistrarse = new JLabel("Jugar");
+		lblRegistrarse = new JLabel("Jugar");
 		lblRegistrarse.setBounds(205, 162, 82, 23);
 		layeredPane.add(lblRegistrarse, new Integer(2));
 		lblRegistrarse.setForeground(Color.WHITE);
-		lblRegistrarse.setEnabled(true);
+		lblRegistrarse.setEnabled(false);
 		lblRegistrarse.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblRegistrarse.setBackground(Color.WHITE);
 
@@ -66,10 +72,11 @@ public class MenuInicio extends JFrame {
 		lblIniciarSesion.setForeground(Color.WHITE);
 		lblIniciarSesion.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
-		JButton btnRegistrar = new JButton("Jugar");
+		btnRegistrar = new JButton("Jugar");
 		btnRegistrar.setBounds(127, 162, 191, 23);
 		layeredPane.add(btnRegistrar, new Integer(1));
 		btnRegistrar.setFocusable(false);
+		btnRegistrar.setEnabled(false);
 		btnRegistrar.setIcon(new ImageIcon(MenuJugar.class.getResource("/frames/BotonMenu.png")));
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -96,8 +103,15 @@ public class MenuInicio extends JFrame {
 		layeredPane.add(lblBackground, new Integer(0));
 	}
 
+	public JButton getBtnRegistrar() {
+		return btnRegistrar;
+	}
+
+	public JLabel getLblRegistrarse() {
+		return lblRegistrarse;
+	}
+
 	public static void main(String[] args) {
 		new MenuInicio().setVisible(true);
 	}
-
 }

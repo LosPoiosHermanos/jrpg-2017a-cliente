@@ -57,17 +57,8 @@ public class Cliente extends Thread {
 
 	public Cliente() {
 
-		Scanner sc;
-
-		try {
-			sc = new Scanner(new File("config.txt"));
-			ip = sc.nextLine();
-			puerto = sc.nextInt();
-			sc.close();
-		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "No se ha encontrado el archivo de configuración config.txt");
-			e.printStackTrace();
-		}
+		ip = Configuracion.getIp().getText();
+		puerto = Integer.parseInt(Configuracion.getPuerto().getText());
 
 		try {
 			cliente = new Socket(ip, puerto);
@@ -245,6 +236,7 @@ public class Cliente extends Thread {
 				System.exit(1);
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
+				JOptionPane.showMessageDialog(null, "El cliente está obsoleto, intente nuevamente.");
 				e.printStackTrace();
 			}
 		}

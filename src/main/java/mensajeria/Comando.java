@@ -17,5 +17,5 @@ public class Comando {
 	public static final int COMERCIO = 12;
 	public static final int FINALIZARCOMERCIO = 13;
 	public static final int TRUEQUE = 14;
-	
+	public static final int ENVIARCHAT = 15;
 }

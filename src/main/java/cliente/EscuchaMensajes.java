@@ -177,7 +177,7 @@ public class EscuchaMensajes extends Thread {
 				}
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Fallo la conexion con el servidor. SISO QUE TOCASTE");
+			JOptionPane.showMessageDialog(null, "Fallo la conexion con el servidor.");
 			e.printStackTrace();
 		}
 	}
@@ -189,7 +189,6 @@ public class EscuchaMensajes extends Thread {
 			try {
 				cliente.wait(300);
 				Multichat.getLista().removeAll();
-				// cliente.getJuego().getEscuchaMensajes().getPersonajesConectados().remove(cliente.getPaquetePersonaje().getId());
 				if (cliente.getJuego().getEscuchaMensajes().getPersonajesConectados() != null) {
 					for (Map.Entry<Integer, PaquetePersonaje> personajes : personajesConectados.entrySet()) {
 						if (!personajes.getValue().getNombre().equals(cliente.getPaquetePersonaje().getNombre()))
