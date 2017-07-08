@@ -221,8 +221,8 @@ public class MenuInfoPersonaje {
 		g.setFont(new Font("Book Antiqua", 0, 14));
 		Pantalla.centerString(g, new Rectangle(x, y + 270, menu.getWidth(), 0), "Podras ver en tu mochila");
 		Pantalla.centerString(g, new Rectangle(x, y + 290, menu.getWidth(), 0), "los elementos conseguidos");
-		Pantalla.centerString(g, new Rectangle(x, y + 310, menu.getWidth(), 0), "sigue asi, para subir de nivel");
-		Pantalla.centerString(g, new Rectangle(x, y + 330, menu.getWidth(), 0), "y mejorar tus atributos.");
+		Pantalla.centerString(g, new Rectangle(x, y + 310, menu.getWidth(), 0), "sigue asi para ");
+		Pantalla.centerString(g, new Rectangle(x, y + 330, menu.getWidth(), 0), " mejorar tus atributos.");
 
 	}
 
