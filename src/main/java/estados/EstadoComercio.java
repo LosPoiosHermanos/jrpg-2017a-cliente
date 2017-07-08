@@ -152,11 +152,11 @@ public class EstadoComercio extends Estado {
 											+ objeto2.getValor() + "  ?");
 
 							if (resp == 0) {// si respuesta es si
-								personaje.getInventario().agregar(objeto2);
-								enemigo.getInventario().quitarObjeto(objeto2);
+								personaje.getInventario().agregar(objeto1);
+								enemigo.getInventario().quitarObjeto(objeto1);
 
-								enemigo.getInventario().agregar(objeto1);
-								personaje.getInventario().quitarObjeto(objeto1);
+								enemigo.getInventario().agregar(objeto2);
+								personaje.getInventario().quitarObjeto(objeto2);
 
 								juego.getEstadoJuego().setHaySolicitud(true, juego.getPersonaje(),
 										MenuInfoPersonaje.mercadoExitoso);
